@@ -38,7 +38,6 @@ print(False)
 #NONE TYPE - INFORMÁCIÓ HIÁNYA
 
 print(None)
-print("test")
 
 
 
