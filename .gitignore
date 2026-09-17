@@ -1,0 +1,65 @@
+
+# Python specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+env/
+venv/
+virtualenv/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Log files
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Python package related
+*.egg-info/
+.eggs/
+build/
+dist/
+*.egg
+*.whl
+
+# Pipenv
+Pipfile.lock
+
+# Coverage reports
+htmlcov/
+*.cover
+*.coverage
+*.coverage.*
+.cache
+coverage.xml
+
+# Unit test / pytest cache
+.pytest_cache/
+
+# Environment variables
+.env
+.streamlit
+
+#Log
+*.log
+streamlit-test_pi/
+
+# Specific DB files
+webshop.db
+
+# Code quality caches
+.mypy_cache/
+.ruff_cache/
