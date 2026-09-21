@@ -3,19 +3,19 @@ This is my first Python program
 """
 
 # string
-print( "Hello World!" )
+print("Hello World!")
 
 # int
-print( 2026 )
+print(2026)
 
 # float
-print( 3.14 )
+print(3.14)
 
 # bool true
-print( True )
+print(True)
 
 # bool false
-print( False )
+print(False)
 
 # none
-print( None )
+print(None)
