@@ -27,3 +27,5 @@ print(False)
 
 #NONE TYPE - INFORMÁCIÓ HIÁNYA
 print(None)
+
+#valtoztatas push-oz
