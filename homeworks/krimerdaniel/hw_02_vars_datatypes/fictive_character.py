@@ -15,7 +15,7 @@ characters_name = char_name.strip()
 
 characters_age = input("Please provide your age: ")
 counter = 0
-while counter < 3:  # Allow up to 3 attempts
+while counter < 2:  # Allow up to 3 attempts
     counter += 1
     try:
         characters_age = int(characters_age)*365
@@ -32,7 +32,7 @@ else:
 
 characters_experiance = input("Please provide the number of years of experience you have with Python (round to whole number): ")
 counter = 0
-while counter < 3:  # Allow up to 3 attempts
+while counter < 2:  # Allow up to 3 attempts
     counter += 1
     try:
         characters_experiance = int(characters_experiance)
@@ -49,7 +49,7 @@ else:
 
 characters_opinion = input("Do you want to become a professional Python developer (Yes/No): ").lower()
 counter = 0
-while counter < 3:  # Allow up to 3 attempts
+while counter < 2:  # Allow up to 3 attempts
     counter += 1
     if characters_opinion in ["yes", "no"]:
         if characters_opinion == "yes":
