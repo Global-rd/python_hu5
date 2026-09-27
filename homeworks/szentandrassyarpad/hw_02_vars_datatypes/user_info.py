@@ -31,8 +31,8 @@ pprint(user_info)
 user_info['favourite_meals'].append('spaghetti')
 
 # 5
-user_info['favourite_meals'].append(user_info['favourite_meals'][2])
-user_info['favourite_meals'].append(user_info['favourite_meals'][3])
+user_info['favourite_meals'].extend(user_info['favourite_meals'][2:4])
+
 
 # 6
 user_info['favourite_meals']=list(set(user_info['favourite_meals']))
@@ -59,5 +59,5 @@ pprint(user_info)
 
 # Extra 2
 
-user_info['phone_contacts'].update({"Tim":user_info['phone_contacts']['Tim2']})
-user_info['phone_contacts'].pop('Tim2')
+user_info['phone_contacts']['Tim']=user_info['phone_contacts'].pop('Tim2')
+
