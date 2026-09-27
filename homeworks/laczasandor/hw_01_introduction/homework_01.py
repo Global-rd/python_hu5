@@ -1,5 +1,5 @@
 """
-This is (well, technically not) my first Python program
+This is my first Python program
 """
 
 print(42)               # int
