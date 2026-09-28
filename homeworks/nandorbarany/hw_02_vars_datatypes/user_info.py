@@ -1,4 +1,6 @@
 
+from pprint import pprint
+
 user_info = {
     "name": "Mike",
     "age": 25,
@@ -17,24 +19,21 @@ user_info = {
 
 skills = input("What are your programming skills? (Give four languages in the order of your preference, separated by commas without spaces) ")
 
-skills_list = list(skills.strip().split(","))
-user_info["skills"] = skills_list
+user_info["skills"] = skills.strip().split(",")
 
-favourite_meals = sorted(user_info["favourite_meals"])
-user_info["favourite_meals"] = favourite_meals
+user_info["favourite_meals"].sort()
 
-from pprint import pprint
 pprint(user_info)
 
-print(favourite_meals[-2])
+print(user_info["favourite_meals"][-2])
 
-favourite_meals.append("spaghetti")
-favourite_meals.append("sushi")
-favourite_meals.append("spaghetti")
+user_info["favourite_meals"].append("spaghetti")
 
-print(favourite_meals)
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 
-favourite_meals = list(set(favourite_meals))
+print(user_info["favourite_meals"])
+
+favourite_meals = list(set(user_info["favourite_meals"]))
 
 print(favourite_meals)
 
