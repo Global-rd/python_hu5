@@ -27,19 +27,17 @@ print(f"3. A favourite_meals utolsó előtti eleme: {user_info['favourite_meals'
 
 # 4. 'spaghetti' hozzáadása a listához
 user_info["favourite_meals"].append("spaghetti")
-# A lista most: ['carbonara', 'pizza', 'sushi', 'spaghetti']
 
-# 5. Az aktuális lista harmadik (index: 2) és negyedik (index: 3) elemének újra hozzáadása
-elem_3 = user_info["favourite_meals"][2] # 'sushi'
-elem_4 = user_info["favourite_meals"][3] # 'spaghetti'
-user_info["favourite_meals"].append(elem_3)
-user_info["favourite_meals"].append(elem_4)
+# 5. Az aktuális lista harmadik és negyedik elemének hozzáadása egyszerre, extend és index range használatával
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 
 # 6. Duplikátumok törlése (set-té alakítással kiszűrjük a duplikációt, majd visszalistásítjuk)
 user_info["favourite_meals"] = list(set(user_info["favourite_meals"]))
 
-# 7. Az első (0) és utolsó (-1) elem felcserélése
-user_info["favourite_meals"][0], user_info["favourite_meals"][-1] = user_info["favourite_meals"][-1], user_info["favourite_meals"][0]
+# 7. Az első (0) és utolsó (-1) elem felcserélése egy átmeneti változóval
+temp = user_info["favourite_meals"][0]
+user_info["favourite_meals"][0] = user_info["favourite_meals"][-1]
+user_info["favourite_meals"][-1] = temp
 
 # 8. Új kontakt hozzáadása a phone_contacts-hoz
 user_info["phone_contacts"]["Alex"] = "+36509998877"
@@ -51,13 +49,11 @@ user_info["phone_contacts"].pop("Tim")
 user_info["phone_contacts"]["Kate"] = ["+361111111", "+362222222"]
 
 # Extra 1: A 'skills' lista utolsó 3 elemének kiprintelése ellentétes sorrendben (slicing lépésközzel: [start:stop:step])
-# Ha 4 elemünk van, az utolsó 3-at hátulról előre a [-1:-4:-1] vagy a [3:0:-1] szeleteléssel kapjuk meg
 print(f"Extra 1 - Skills utolsó 3 eleme fordítva: {user_info['skills'][-1:-4:-1]}")
 
 # Extra 2: Tim2 átnevezése Tim-re
-# Kimentjük Tim2 számát, töröljük Tim2-t, majd elmentjük az új 'Tim' kulcs alá
-tim2_number = user_info["phone_contacts"].pop("Tim2")
-user_info["phone_contacts"]["Tim"] = tim2_number
+# A .pop("Tim2") kitörli Tim2-t és egyből visszaadja a számát, amit elmentünk az új "Tim" kulcs alá
+user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2")
 
 # A teljes dictionary ellenőrző kiíratása a végén
 print("\nA módosított teljes user_info szótár:")
