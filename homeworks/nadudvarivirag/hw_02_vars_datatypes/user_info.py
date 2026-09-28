@@ -17,8 +17,7 @@ user_info = {
 }
 
 # 1. task
-skills = input("Enter 4 programming languages: ")
-skills = skills.split(",")
+skills = input("Enter 4 programming languages: ").split(",")
 user_info.update({"skills": skills})
 
 #pprint(user_info)
@@ -33,10 +32,7 @@ pprint(user_info["favourite_meals"][-2])
 user_info["favourite_meals"].append("spaghetti")
 
 # 6. task
-more_favourite_meals = user_info["favourite_meals"][2],user_info["favourite_meals"][3]
-#print(more_favourite_meals)
-
-user_info["favourite_meals"].extend(more_favourite_meals)
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 #pprint(user_info)
 
 # 7. task
