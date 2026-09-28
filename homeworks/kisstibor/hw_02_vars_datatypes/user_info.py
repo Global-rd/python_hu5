@@ -68,8 +68,13 @@ print('''\n---------------------------
 harmadik és negyedik elemét (nem az index-ét) újra.
   user_info["favourite_meals"].extend([user_info["favourite_meals"][2], user_info["favourite_meals"][3]])
 ''')
-user_info["favourite_meals"].extend([user_info["favourite_meals"][2], user_info["favourite_meals"][3]])
+
+# JAVÍTÁS:
+# user_info["favourite_meals"].extend([user_info["favourite_meals"][2], user_info["favourite_meals"][3]])
+# A kikommentezett megoldás helyett index rangel érdemes megoldani. Átláthatóbb és több elemszám esetén is jobban kezelhető:
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 pprint(user_info)
+
 
 
 print('''\n---------------------------
