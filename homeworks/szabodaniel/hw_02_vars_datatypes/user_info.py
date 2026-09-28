@@ -41,3 +41,18 @@ user_info["favourite_meals"][0] = favourite_meals_last
 user_info["favourite_meals"][-1] = favourite_meals_first #7. elso es utolso elem csere
 
 print(user_info["favourite_meals"])
+
+user_info["phone_contacts"]["Daniel"] = "+36301234567" #8. uj elem nevvel telefonszammal
+pprint(user_info["phone_contacts"])
+
+user_info["phone_contacts"].pop("Tim") #+. törtölni Tim-et
+pprint(user_info["phone_contacts"])
+
+user_info["phone_contacts"]["Robert"] = ["+3630526983" , "+36307654321"] #10. uj elem két telefonszammal
+pprint(user_info["phone_contacts"])
+
+print(user_info["skills"][-3:])
+print(user_info["skills"][-1:-4:-1]) #1 extra
+
+user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2") #2 extra
+pprint(user_info["phone_contacts"])
