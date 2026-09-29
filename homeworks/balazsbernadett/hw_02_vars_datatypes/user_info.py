@@ -23,7 +23,7 @@ user_info.update({"skills": prog_language})
 print(user_info)
 
 #2.feladat
-user_info["favourite_meals"] = sorted(user_info["favourite_meals"])
+user_info["favourite_meals"].sort()
 print(user_info)
 
 #3. feladat
@@ -33,14 +33,12 @@ print(user_info["favourite_meals"][-2])
 user_info["favourite_meals"].append("spaghetti")
 
 #5. feladat
-#user_info["favourite_meals"].append(user_info["favourite_meals"][2])        első megoldás
-#user_info["favourite_meals"].append(user_info["favourite_meals"][3])        első megoldás
 
-user_info["favourite_meals"].extend([user_info["favourite_meals"][2], user_info["favourite_meals"][3]])
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 print(user_info["favourite_meals"])
 
 #6. feladat
-user_info["favourite_meals"]  = list(set(user_info["favourite_meals"]))
+user_info["favourite_meals"] = list(set(user_info["favourite_meals"]))
 user_info["favourite_meals"] = sorted(user_info["favourite_meals"])
 #print(user_info["favourite_meals"])
 
