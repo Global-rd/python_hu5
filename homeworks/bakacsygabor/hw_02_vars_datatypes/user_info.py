@@ -1,4 +1,4 @@
-"""Practise list and dictionary operations with user information."""
+"""Lista- és szótárműveletek gyakorlása."""
 
 
 user_info = {
@@ -18,56 +18,55 @@ user_info = {
 }
 
 
-# 1. split(",") converts the comma-separated string into a list.
+# 1. A split(",") a vesszőkkel elválasztott szöveget listává alakítja.
 programming_languages = input(
     "Enter four programming languages separated by commas without spaces: "
 ).split(",")
 user_info["skills"] = programming_languages
 
-# 2. sort() changes the existing list into ascending alphabetical order.
+# 2. A sort() ábécésorrendbe rendezi az ételeket.
 user_info["favourite_meals"].sort()
 
-# 3. Index -2 selects the second-to-last item.
+# 3. A -2 index az utolsó előtti elemet jelenti.
 print("Sorted favourite meals:", user_info["favourite_meals"])
 print("Second-to-last favourite meal:", user_info["favourite_meals"][-2])
 
-# 4. append() adds one new item to the end of the list.
+# 4. Az append() hozzáadja a spagettit a lista végéhez.
 user_info["favourite_meals"].append("spaghetti")
 
-# 5. Slice [2:4] selects the current third and fourth items.
+# 5. A [2:4] kiválasztja a lista harmadik és negyedik elemét.
 user_info["favourite_meals"].extend(
     user_info["favourite_meals"][2:4]
 )
 
-# 6. Dictionary keys are unique, so this removes duplicates while
-# preserving the original order of the list.
+# 6. A dict.fromkeys() törli a duplikációkat, a sorrend pedig megmarad.
 user_info["favourite_meals"] = list(
     dict.fromkeys(user_info["favourite_meals"])
 )
 
-# 7. Multiple assignment swaps the first and last items.
+# 7. Felcseréljük az első és az utolsó ételt.
 favourite_meals = user_info["favourite_meals"]
 favourite_meals[0], favourite_meals[-1] = (
     favourite_meals[-1],
     favourite_meals[0],
 )
 
-# 8. Add one new name and phone number to the nested dictionary.
+# 8. Hozzáadunk egy új nevet és telefonszámot.
 user_info["phone_contacts"]["Anna"] = "+36705551234"
 
-# 9. Delete Tim's outdated contact entry.
+# 9. Töröljük Tim már nem használt telefonszámát.
 del user_info["phone_contacts"]["Tim"]
 
-# 10. A list stores two phone numbers under one person's name.
+# 10. Peter két telefonszámát egy listában tároljuk.
 user_info["phone_contacts"]["Peter"] = [
     "+36305550101",
     "+36305550102",
 ]
 
-# Extra 1. Take the last three skills, then reverse their order.
+# Extra 1. Az utolsó három nyelvet fordított sorrendben írjuk ki.
 print("Last three skills in reverse order:", user_info["skills"][-3:][::-1])
 
-# Extra 2. pop() removes Tim2 and returns its value under the new Tim key.
+# Extra 2. A pop() átadja Tim2 számát az új Tim kulcsnak, majd törli Tim2-t.
 user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop(
     "Tim2"
 )
