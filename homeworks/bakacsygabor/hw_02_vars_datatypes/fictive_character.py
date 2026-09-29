@@ -30,7 +30,7 @@ developer_message = (
 
 # :g displays 2.0 as 2, while still allowing values such as 1.5.
 print(
-    f"My character is {age_in_days} days old. "
+    f"My character is {age_in_days} old. "
     f"His/her name is {character_name} and he/she has "
     f"{python_experience_in_years:g} years experience. "
     f"{developer_message}"
