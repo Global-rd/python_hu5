@@ -1,23 +1,23 @@
 # fictive_character.py
 
 # User input
-name = input("Add meg a neved: ").strip().title()
-age = int(input("Add meg az életkorod: "))
-python_exp = input("Hány éve foglalkozol Python-nal? ")
+name = input("Please enter your name: ").strip().title()
+age = int(input("Please enter your age: "))
+python_exp = input("How many years have you been learning Python? ")
 
-# Extra input (szorgalmi)
-pro_choice = input("Szeretnéd, hogy a karakter profi Python fejlesztő legyen? (yes/no): ").strip().lower()
+# Extra task input
+pro_choice = input("Would you like your character to become a professional Python developer? (yes/no): ").strip().lower()
 
 # Ternary operator
-pro_status = "profi Python fejlesztő lesz" if pro_choice == "yes" else "nem lesz profi Python fejlesztő"
+pro_status = "will become a professional Python developer" if pro_choice == "yes" else "will not become a professional Python developer"
 
-# Age in days
+# Age in days (assuming today is the character's birthday)
 age_in_days = age * 365
 
-# Output using f-string
+# Final output using f-string
 print(
-    f"A karakter neve: {name}, életkora: {age} év, "
-    f"ami napokban kifejezve {age_in_days} nap. "
-    f"Python tapasztalat: {python_exp} év. "
-    f"A karakter {pro_status}."
+    f"Character name: {name}, age: {age} years, "
+    f"which is approximately {age_in_days} days old. "
+    f"Python experience: {python_exp} years. "
+    f"The character {pro_status}."
 )
