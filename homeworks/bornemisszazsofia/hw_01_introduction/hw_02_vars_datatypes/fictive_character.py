@@ -44,13 +44,18 @@ if fictive_character_ambition == "yes":print(f"My character is {fictive_characte
 else: print(f"My character is {fictive_character_age_days} days old. Her name is {fictive_character_name} and she has {fictive_character_python_experience} years of experience with Python. She does not want to become a Python developer.")
 """ #ez a megoldas vegül egy sima if-else lett, ezert kikommentaltam.
 
-fictive_character_ambition_answer = (
+"""fictive_character_ambition_answer = (
     "She wants to become a Python developer"
     if fictive_character_ambition == "yes"
 else "She does not want to become a Python developer."
 )
+"""
+
+# Javitott ternary
+fictive_character_ambition_answer = "wants" if fictive_character_ambition == "yes" else "does not want"
+
 # Az eredmeny nyomtatasa
-print(f"My character is {fictive_character_age_days} days old. Her name is {fictive_character_name} and she has {fictive_character_python_experience} years of experience with Python. {fictive_character_ambition_answer}")
+print(f"My character is {fictive_character_age_days} days old. Her name is {fictive_character_name} and she has {fictive_character_python_experience} years of experience with Python. She {fictive_character_ambition_answer} to become a Python developer.")
 
 
 
