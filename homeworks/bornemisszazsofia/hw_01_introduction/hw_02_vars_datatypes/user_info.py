@@ -66,9 +66,9 @@ print("Added Alex with work and personal numbers:", user_info["phone_contacts"])
 # Extra 1:
 print("Last 3 skills reversed", user_info["skills"][-1:-4:-1])
 
-#Extra 2:
-user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"]["Tim2"]
-user_info["phone_contacts"].pop("Tim2")
+#Extra 2 revised:
+user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2")
+#user_info["phone_contacts"].pop("Tim2") -> merged with the above step
 print("Updated Tim", user_info["phone_contacts"])
 
 print("Final user info:")
