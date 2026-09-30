@@ -1,20 +1,4 @@
 user_info = { 
-"name": "Mike", 
-"age": 25, 
-"favourite_meals": [ 
-"pizza", 
-"carbonara", 
-"sushi" 
-], 
-"phone_contacts": { 
-"Mary": "+36701234567", 
-"Tim": "+36207654321", 
-"Tim2": "+36304567321", 
-"Jim": "+364005000" 
-} 
-} 
-
-user_info = { 
     "name": "Mike", 
     "age": 25, 
     "favourite_meals": [ 
@@ -46,10 +30,8 @@ print("Second-to-last meal:", user_info["favourite_meals"][-2])
 user_info["favourite_meals"].append("spaghetti")
 print("After adding spaghetti:", user_info["favourite_meals"])
 
-# 5. Add the 3rd and 4th elements again (values, not indexes)
-third = user_info["favourite_meals"][2]
-fourth = user_info["favourite_meals"][3]
-user_info["favourite_meals"].extend([third, fourth])
+# 5. Add the 3rd and 4th elements again using slicing
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 print("After duplicating 3rd and 4th:", user_info["favourite_meals"])
 
 # 6. Remove duplicates
