@@ -35,10 +35,10 @@ print(user_info["favourite_meals"])
 user_info["favourite_meals"] = list(set(user_info["favourite_meals"])) #6. duplikatumok torlese
 print(user_info["favourite_meals"])
 
-favourite_meals_first = user_info["favourite_meals"][0]
-favourite_meals_last = user_info["favourite_meals"][-1]
-user_info["favourite_meals"][0] = favourite_meals_last
-user_info["favourite_meals"][-1] = favourite_meals_first #7. elso es utolso elem csere
+user_info["favourite_meals"][0], user_info["favourite_meals"][-1] = (
+    user_info["favourite_meals"][-1],
+     user_info["favourite_meals"][0]  
+       )   #7. elso es utolso elem csere
 
 print(user_info["favourite_meals"])
 
