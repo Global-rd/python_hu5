@@ -35,7 +35,7 @@ user_info["favourite_meals"].sort()
 3. Printeld ki a favourite_meals lista utolsó előtti elemét
 '''
 
-print(user_info["favourite_meals"][-1])
+print(user_info["favourite_meals"][-2])
 
 '''
 4. Adj hozzá egy “spaghetti” string-et ugyanehhez a listához
