@@ -20,9 +20,9 @@ user_info = {
 }
 
 #add user 4 programming language
-#prog_lang = input("please add 4 programming language (use comma): ")
-#user_info["prog_lang"] = prog_lang.split(",")
-#print(user_info["prog_lang"])
+prog_lang = input("please add 4 programming language (use comma): ")
+user_info["prog_lang"] = prog_lang.split(",")
+print(user_info["prog_lang"])
 
 #Ascending alphabetical order
 print(sorted(user_info["favourite_meals"]))
