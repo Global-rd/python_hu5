@@ -8,7 +8,12 @@ age_in_days = age_in_years * 365
 python_experience = float(input("Python experience in years: "))
 # Megkérdezzük, hogy szeretne-e Python-fejlesztő lenni.
 developer_answer = input("Does the character want to be a Python developer? (yes/no): ").strip().lower()
-developer_message = "He/she wants to be a Python developer!" if developer_answer == "yes" else "He/she does not want to be a Python developer!"
+developer_message = "wants" if developer_answer == "yes" else "does not want"
 # Egy mondatban kiírjuk a karakter adatait.
-print(f"My character is {age_in_days} days old. His/her name is {character_name} and he/she has {python_experience} years experience. {developer_message}")
+print(
+    f"My character is {age_in_days} days old. "
+    f"His/her name is {character_name} and he/she has "
+    f"{python_experience} years experience. "
+    f"He/she {developer_message} to be a professional developer."
+)
 
