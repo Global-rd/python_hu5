@@ -48,13 +48,13 @@ user_info["favourite_meals"].append("spagetti")
 harmadik és negyedik elemét (nem az index-ét) újra.
 '''
 
-user_info["favourite_meals"].extend(["sushi","spagetti"])
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 
 '''
 6. Ezután töröld az így keletkezett duplikátumokat!
 '''
 
-del user_info["favourite_meals"][4:]
+user_info["favourite_meals"] = list(set(user_info["favourite_meals"]))
 
 '''
 7. Cseréld fel a favourite_meals lista első és utolsó elemét!
