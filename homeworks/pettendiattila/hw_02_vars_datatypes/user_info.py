@@ -85,6 +85,5 @@ print(f"Az utolsó 3 skill fordítva: {user_info["skills"][-3:][::-1]}")
 print("-"*100)
 
 #2 Extra feladat
-user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"]["Tim2"]
-del user_info["phone_contacts"]["Tim2"]
+user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2")
 print(user_info["phone_contacts"])
