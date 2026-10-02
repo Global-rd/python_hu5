@@ -47,7 +47,7 @@ user_info["favourite_meals"][0] , user_info["favourite_meals"][-1] = user_info["
 print(user_info["favourite_meals"])
 
 #Add person to phone contacts
-user_info["phone_contacts"]["Gréti_kicsi_mobil"] = ("+36707070707")
+user_info["phone_contacts"]["Gréti_kicsi_mobil"] = "+36707070707"
 print(user_info["phone_contacts"])
 
 # Remove Tim
