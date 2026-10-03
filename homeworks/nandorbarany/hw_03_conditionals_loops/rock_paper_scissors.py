@@ -49,7 +49,7 @@ while round_counter <= rounds:
 
     round_counter += 1
 
-# 3. Végeredmény
+# final score
 if score1 > score2:
     diff = score1 - score2
     print(f"\nFinal result: {score1}-{score2}. Winner is Player 1 with {diff} point(s)!")
