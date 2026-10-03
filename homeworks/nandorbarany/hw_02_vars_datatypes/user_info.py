@@ -59,3 +59,4 @@ print(user_info["skills"][-1:-4:-1])
 user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2")
 
 print(user_info["phone_contacts"])
+
