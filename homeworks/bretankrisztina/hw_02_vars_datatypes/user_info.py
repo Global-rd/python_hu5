@@ -1,5 +1,3 @@
-from operator import add
-
 #kiinduló táblázat
 user_info = {
     "name": "Mike",
