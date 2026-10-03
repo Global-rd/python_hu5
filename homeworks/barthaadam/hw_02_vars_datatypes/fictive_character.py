@@ -1,3 +1,5 @@
+from pprint import pprint
+
 name = input("Enter your name: ").strip().upper()
 gender = input("Enter your gender (male/female): ").strip().lower()
 age = int(input("Enter your age: "))
@@ -12,15 +14,11 @@ professional_python = input(
     "Do you want to be a professional Python developer? (yes/no): "
 ).strip().lower()
 
-developer_text = (
-    f"{pronoun.capitalize()} wants to be a professional Python developer!"
-    if professional_python == "yes"
-    else f"{pronoun.capitalize()} does not want to be a professional Python developer!"
-)
+developer_text = "wants" if professional_python == "yes" else "does not want"
 
-print(
+pprint(
     f"My character is {age_in_days} days old. "
     f"{possessive_pronoun.capitalize()} name is {name} and "
     f"{pronoun} has {python_experience} years experience. "
-    f"{developer_text}"
+    f"{pronoun.capitalize()} {developer_text} to be a professional Python developer!"
 )
