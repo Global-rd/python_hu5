@@ -18,7 +18,12 @@ print(f"{player_a_name}, {player_b_name} welcome to rock-paper-scissors! Remembe
 # Requesting nr. of rounds
 rounds = 0
 round_try_count = 0
-rounds = int(input("How many rounds do you wanna play? "))
+while True:
+    try:
+        rounds = int(input("How many rounds do you wanna play? "))
+        break
+    except ValueError:
+        print("You should provide an integer, please try again.")    
 while rounds % 2 == 0:
     rounds = int(input(f"As {rounds} is even, it can lead to draw. Please enter an odd number: "))
     round_try_count += 1
@@ -40,12 +45,12 @@ score_dict = {("scissors", "paper") : [1, 0],
 while counter <= rounds:
     print(f"{'Final round starts.' if counter == rounds else f'Round {counter} starts.'}")
     # Requesting and validating players' input
-    player_a_move = input(f"{player_a_name}, enter your move (rock/paper/scrissors): ")
+    player_a_move = input(f"{player_a_name}, enter your move (rock/paper/scissors): ")
     while player_a_move not in ["rock", "paper", "scissors"]:
-        player_a_move = input(f"{player_a_name}'s move is invalid, enter your move again (rock/paper/scrissors): ")
-    player_b_move = input(f"{player_b_name}, enter your move (rock/paper/scrissors): ")
+        player_a_move = input(f"{player_a_name}'s move is invalid, enter your move again (rock/paper/scissors): ")
+    player_b_move = input(f"{player_b_name}, enter your move (rock/paper/scissors): ")
     while player_b_move not in ["rock", "paper", "scissors"]:
-        player_b_move = input(f"{player_b_name}'s move is invalid, enter your move again (rock/paper/scrissors): ")
+        player_b_move = input(f"{player_b_name}'s move is invalid, enter your move again (rock/paper/scissors): ")
     # Comparing players' choices and announcing round's score, if any, or repeating the round
     if player_a_move != player_b_move:
         round_score = score_dict.get(tuple([player_a_move, player_b_move]))
