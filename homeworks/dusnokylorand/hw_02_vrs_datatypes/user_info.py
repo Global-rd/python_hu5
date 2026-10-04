@@ -25,10 +25,7 @@ print(user_info["favourite_meals"][-2])
 user_info["favourite_meals"].append("spaghetti")
 
 user_info["favourite_meals"].extend(
-    [
-        user_info["favourite_meals"][2],
-        user_info["favourite_meals"][3]
-    ]
+    user_info["favourite_meals"][2:4]
 )
 
 user_info["favourite_meals"] = list(
