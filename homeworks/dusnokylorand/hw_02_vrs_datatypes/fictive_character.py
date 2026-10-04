@@ -9,16 +9,14 @@ wants_to_be_developer = input(
 ).strip().lower()
 
 developer_message = (
-    "He/she wants to be a Python developer!"
+    "wants"
     if wants_to_be_developer == "yes"
-    else "He/she does not want to be a Python developer!"
+    else "does not want"
 )
 
 print(
     f"My character is {age_in_days} days old. "
     f"His/her name is {name} and he/she has "
     f"{python_experience} years experience. "
-    f"{developer_message}"
+    f"He/she {developer_message} to be a Python developer!"
 )
-
-
