@@ -18,3 +18,4 @@ print(age_in_days)
 print(f"My character is {age_in_days} days old and has {python_experience} years of Python experience. His name is {name}.")
 
 
+input("Press Enter to close...")
