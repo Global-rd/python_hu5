@@ -7,11 +7,11 @@ price = int(input("What is your budget? "))
 
 good = "This flat is good for you"
 not_good = "This flat is not good for you"
-if city == (("New York" or "San Francisco") and (int(price) <= 4000)):
+if city in ["New York", "San Francisco"] and int(price) < 4000:
     print(f"{good} {city}, {price}")
-if city == "Washington":
+elif city == "Washington":
     print(f"{not_good} {city}, {price}")
-if city == "Chicago":
+elif city == "Chicago":
     print(f"{good} {city}, {price}")
-if int(price) < 3000 :
+elif int(price) < 3000 :
     print(f"{good} {city}, {price}")
