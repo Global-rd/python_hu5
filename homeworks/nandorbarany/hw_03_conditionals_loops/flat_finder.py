@@ -8,16 +8,14 @@ else:
 
     result = False
 
-    if price <= 4000 and (location == "New York" or location == "San Francisco"):
+    if price < 4000 and location in ["New York", "San Francisco"]:
         result = True
     elif location == "Chicago":
-        if price <= 4000:
-            result = True
-    else:
-        if price <= 3000:
-            result = True
+        result = True
+    elif price <= 3000:
+        result = True
 
-    if result is True:
+    if result:
         print(f"The flat in {location} is approvable for Sarah for ${price}.")
     else:
         print(f"The flat in {location} is NOT approvable for Sarah for ${price}.")
