@@ -26,7 +26,28 @@ while current_round <= game_rounds:
         print("It's a tie! Please start again.")
         continue
 
-    elif player_1_input == "rock" and player_2_input == "paper":
+    if(
+         player_1_input == "scissors" and player_2_input == "paper"
+         or
+         player_1_input == "paper" and player_2_input == "rock"
+         or
+         player_1_input == "rock" and player_2_input == "scissors"):
+        print("Player 1 wins. Congratulations!")
+        score_player_1 += 1
+    else:
+        print("Player 2 wins. Congratulations!")
+        score_player_2 += 1
+        
+
+    current_round += 1
+
+game_winner = "Player 1" if score_player_1 > score_player_2 else "Player 2"
+game_score = score_player_1 if score_player_1 > score_player_2 else score_player_2
+
+print(f"Congratulations to {game_winner} who won with {game_score} points!")
+
+"""
+ elif player_1_input == "rock" and player_2_input == "paper":
         print("Player 2 wins. Congratulations!")
         score_player_2 += 1
     elif player_1_input == "paper" and player_2_input == "scissors":
@@ -46,12 +67,6 @@ while current_round <= game_rounds:
         score_player_1 += 1
     else:
         pass
-
-    current_round += 1
-
-game_winner = "Player 1" if score_player_1 > score_player_2 else "Player 2"
-game_score = score_player_1 if score_player_1 > score_player_2 else score_player_2
-
-print(f"Congratulations to {game_winner} who won with {game_score} points!")
+"""
 
 
