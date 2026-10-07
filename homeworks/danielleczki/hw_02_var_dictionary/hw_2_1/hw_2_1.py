@@ -16,3 +16,12 @@ print(
     f"{python_exp_in_years} years experience. "
     f"I {answer}{to_be_developer}. "
 )
+if 'bar' in {'foo': 1, 'bar': 2, 'baz': 3}:
+
+  print(1)
+
+  print(2)
+
+if 'a' in 'qux':
+
+  print(3)
