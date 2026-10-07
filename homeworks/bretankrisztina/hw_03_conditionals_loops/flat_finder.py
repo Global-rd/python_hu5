@@ -21,7 +21,7 @@ elif city == "CHICAGO" or city == "CHI":
     condition = True
 
 # New York, San Fransisco- szereti, de max. 4000 USD, 
-elif city == "NEW YORK" or city == "NYC" or city == "SAN FRANCISCO" or city == "SF" and (rental_fee < 4000):
+elif city in ("NEW YORK", "NYC", "SAN FRANCISCO", "SF") and rental_fee < 4000:
     condition = True
 
 # ha a havi bér 3000 USD-nél kisebb- bárhova
@@ -55,7 +55,7 @@ if valasz == "yes":
         else: 
             rental_fee = float(input("How much is the monthly rent? "))
 
-            if (city == "NEW YORK" or city == "NYC" or city == "SAN FRANCISCO" or city == "SF") and (rental_fee < 4000):
+            if city in ("NEW YORK", "NYC", "SAN FRANCISCO", "SF") and rental_fee < 4000:
                 print(f"OK, I'm moving in this city: {city} and this rental fee: {rental_fee}" )
             elif rental_fee < 3000:
                 print ("I'll move anywhere!")
