@@ -27,7 +27,8 @@ for round in range(number_of_rounds):
     
     # Same choice
     while player_one_choice == player_two_choice: 
-        print("You cannot give the same answer. Enter an other one:")
+        print("You cannot give the same answer. Both of you enter an other one:")
+        player_one_choice = input("Player_1: ").lower()
         player_two_choice = input("Player_2: ").lower()
     
     # Determine the winner
