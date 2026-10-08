@@ -1,0 +1,2 @@
+This is a sample text from a context manager.
+This is a sample text from a context manager in append mode.
