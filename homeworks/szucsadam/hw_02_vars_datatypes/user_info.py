@@ -1,4 +1,13 @@
+programming_languages = input("Enter four programming languages separated by commas: ")
 
+skills = programming_languages.split(",")
+
+languages_list = {}
+
+languages_list["skills"] = skills
+
+
+"""
 print("Enter four programming languages.")
 
 programming_language_1 = input("Enter a programming language 1: ").strip()
@@ -7,7 +16,7 @@ programming_language_3 = input("Enter a programming language 3: ").strip()
 programming_language_4 = input("Enter a programming language 4: ").strip()
 
 skills = [programming_language_1, programming_language_2, programming_language_3, programming_language_4]
-
+"""
 # print(programming_language_list)
 
 
@@ -69,14 +78,16 @@ user_info["phone_contacts"]["Bobi"] = ["+36301111111", "+36702222222"]
 
 print(user_info["phone_contacts"])
 
-# szorgalmi
+print("szorgalmi1")
 
 print(skills[-1:-4:-1])
 
-# szorgalmi 2
+print("szorgalmi2")
 
 user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"]["Tim2"]
 del user_info["phone_contacts"]["Tim2"]
 
 print(user_info)
 
+
+input("Press Enter to close...") # ez csak magamm miatt van itt
