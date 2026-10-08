@@ -47,15 +47,19 @@ user_info["favourite_meals"].append("spaghetti") # hozzáadunk egy új elemet a 
 
 # user_info["favourite_meals"].extend(["sushi", "spagetti"]) 
 
-user_info["favourite_meals"].append(user_info["favourite_meals"][2]) 
+#user_info["favourite_meals"].append(user_info["favourite_meals"][2]) 
 
-user_info["favourite_meals"].append(user_info["favourite_meals"][3])
+#user_info["favourite_meals"].append(user_info["favourite_meals"][3])
+
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
 
 print(user_info["favourite_meals"])
 
 # user_info["favourite_meals"].remove(user_info["favourite_meals"][-1])
 
-del user_info["favourite_meals"][-2:] # utolsó kettő törlése
+# del user_info["favourite_meals"][-2:] # utolsó kettő törlése, 6. feladat
+
+user_info["favourite_meals"] = list(set(user_info["favourite_meals"])) #  6. feladat javítás
 
 print(user_info["favourite_meals"])
 
@@ -84,8 +88,10 @@ print(skills[-1:-4:-1])
 
 print("szorgalmi2")
 
-user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"]["Tim2"]
-del user_info["phone_contacts"]["Tim2"]
+# user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"]["Tim2"]
+# del user_info["phone_contacts"]["Tim2"]
+
+user_info["phone_contacts"]["Tim"] = user_info["phone_contacts"].pop("Tim2") # szorjalmi javítés
 
 print(user_info)
 
