@@ -10,7 +10,6 @@ while rounds % 2 == 0:
         rounds=int(input("How many rounds do you want to play?: "))
 print("Let the game begin.") 
 
-
 while played_rounds < rounds:
     gamer_1_step = input("Gamer 1: Choose: rock, paper, or scissors?: ")
     while gamer_1_step not in signs:
