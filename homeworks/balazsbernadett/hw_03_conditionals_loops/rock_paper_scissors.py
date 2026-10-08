@@ -13,16 +13,15 @@ print("Let the game begin.")
 
 while played_rounds < rounds:
     gamer_1_step = input("Gamer 1: Choose: rock, paper, or scissors?: ")
-    if gamer_1_step not in signs:
+    while gamer_1_step not in signs:
         print("Gamer 1:One more,Choose: rock, paper, or scissors?: ")
         gamer_1_step = input("Choose: rock, paper, or scissors?: ")
     gamer_2_step = input("Gamer 2:Choose: rock, paper, or scissors?: ")
-    if gamer_2_step not in signs:
+    while gamer_2_step not in signs:
         print("Gamer 2 One more,Choose: rock, paper, or scissors?: ")
         gamer_2_step = input("Choose: rock, paper, or scissors?: ")
     if gamer_1_step == gamer_2_step:
         print("This is equal now.")
-        played_rounds += 1
     elif (gamer_1_step == "rock" and gamer_2_step == "scissors") or (gamer_1_step == "paper" and gamer_2_step == "rock") or (gamer_1_step == "scissors" and gamer_2_step == "paper"):
         gamer_1_wins += 1
         played_rounds += 1
