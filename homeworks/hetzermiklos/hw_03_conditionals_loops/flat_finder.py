@@ -1,4 +1,6 @@
 
+# Flat Finder - Homework 3
+
 city = input("Enter the city: ")
 rent = int(input("Enter the monthly rent in USD: "))
 
@@ -10,16 +12,16 @@ if city == "Washington":
 elif city == "Chicago":
     decision = "would move"
 
-elif city == "New York" or city == "San Francisco":
-    if rent < 4000:
-        decision = "would move"
-    else:
-        decision = "would not move"
+elif city in ("New York", "San Francisco") and rent < 4000:
+    decision = "would move"
+
+elif city in ("New York", "San Francisco"):
+    decision = "would not move"
+
+elif rent <= 3000:
+    decision = "would move"
 
 else:
-    if rent <= 3000:
-        decision = "would move"
-    else:
-        decision = "would not move"
+    decision = "would not move"
 
 print(f"Sarah {decision} to {city} for {rent} USD per month.")
