@@ -16,6 +16,7 @@ def read_tasks(file_path):
             return tasklist
     except Exception as e:
         logger.error(f'Could not open file: {e}')
+        return []
                 
 def write_tasks(tasklist, file_path):    
     try:
