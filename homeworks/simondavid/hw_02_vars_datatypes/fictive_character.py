@@ -16,9 +16,7 @@ developer_answer = input(
 ).strip().lower()
 
 developer_status = (
-    "wants to be a Python developer!"
-    if developer_answer == "yes"
-    else "does not want to be a Python developer!"
+    "wants" if developer_answer == "yes" else "does not want"
 )
 
 # Display character information using an f-string
@@ -26,5 +24,5 @@ print(
     f"My character is {age_in_days} days old. "
     f"His/her name is {name} and he/she has "
     f"{python_experience} years experience. "
-    f"He/she {developer_status}"
+    f"He/she {developer_status} to be a Python developer!"
 )
