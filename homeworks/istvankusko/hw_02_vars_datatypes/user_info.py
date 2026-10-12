@@ -30,8 +30,8 @@ print(user_info["favourite_meals"])
 print("----------------------------------------------------------------")
 # add to favourite_meals 2 itmes
 print(f"add to favourite_meals 2 itmes \n")
-user_info["favourite_meals"].append(user_info["favourite_meals"][1])
-user_info["favourite_meals"].append(user_info["favourite_meals"][3])
+user_info["favourite_meals"].extend(user_info["favourite_meals"][2:4])
+
 print(f"After expanding the list:: \n {user_info["favourite_meals"]} \n")
 print("----------------------------------------------------------------")
 user_info["favourite_meals"] = list(set(user_info["favourite_meals"]))
@@ -50,7 +50,8 @@ print("----------------------------------------------------------------")
 user_info["phone_contacts"]["O'Connell"] = "+367048762343"
 print(user_info["phone_contacts"])
 print("----------------------------------------------------------------")
-user_info["phone_contacts"]["Tim"] = None
+#user_info["phone_contacts"]["Tim"] = None
+del user_info["phone_contacts"]["Tim"]
 print(f"contact list after we deleted Tim's cell phone number.: \n {user_info["phone_contacts"]}")
 print("----------------------------------------------------------------")
 user_info["phone_contacts"]["Kate"] = ["+36301112233", "+36704445566"]
