@@ -123,7 +123,7 @@ def main():
         while True:
           task = input("Kérlek add meg az új feladatot: ").strip()
           if task:
-            tasks.append(task)
+            add_task(task)
             logger.info(f"A feladat sikeresen hozzáadva: {task}")
             break
 
@@ -131,15 +131,26 @@ def main():
         show_tasks()
 
       if selected_option == 3:
+        tasks_length = len(tasks)
+
+        if tasks_length == 0:
+          print("Nincs még egy feladatod sem, nincs mit törölni!")
+          continue
+
         show_tasks()
+
         while True:
           remove_task_number = input("Kérlek add meg a törlendő feladat sorszámát: ")
           if not remove_task_number.isdigit():
-            print("A megadott érték nem szám, kérlek próbáld újra!")
-          elif (tasks_length := len(tasks)) < int(remove_task_number):
+            print("A megadott érték nem pozitív egész szám, kérlek próbáld újra!")
+            continue
+          if int(remove_task_number) == 0:
+            print("A nulladik feladat nem értelmezhető, próbáld újra!")
+            continue
+          if tasks_length < int(remove_task_number):
             print(f"A feladatlistád csak {tasks_length} elemű, próbáld újra!")
-          else:
-            break
+            continue
+          break
 
         remove_task_number = int(remove_task_number)
         removed_task = tasks[remove_task_number-1]
