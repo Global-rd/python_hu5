@@ -19,13 +19,7 @@ while True:
     city = input("Melyik városból jött az ajánlat? ").strip().title()
     rent = int(input("Mennyi a havi lakbér USD-ben? "))
 
-    if city == "New York":
-        if rent < 4000:
-            print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
-        else:
-            print(f"Sarah nem fogadja el a {city}-i ajánlatot havi {rent} USD-ért.")
-
-    elif city == "San Francisco":
+    if city in ("New York", "San Francisco") and rent < 4000:
         if rent < 4000:
             print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
         else:
@@ -37,11 +31,10 @@ while True:
     elif city == "Chicago":
         print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
 
+    elif rent <= 3000:
+        print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
     else:
-        if rent <= 3000:
-            print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
-        else:
-            print(f"Sarah nem fogadja el a {city}-i ajánlatot havi {rent} USD-ért.")
+        print(f"Sarah nem fogadja el a {city}-i ajánlatot havi {rent} USD-ért.")
 
     answer = input("Van még egy ajánlat? (igen/nem): ")
 
