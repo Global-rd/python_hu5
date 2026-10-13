@@ -2,13 +2,22 @@ import logging
 import os
 print(os.getcwd())
 
+
 #--------logging-----------
 
-logging.basicConfig(
-    filename="homework.log",
-    level=logging.ERROR,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+file_handler = logging.FileHandler("homewrok.log")
+stream_handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+stream_handler.setFormatter(formatter)
+file_handler.setLevel(logging.ERROR)
+stream_handler.setLevel(logging.DEBUG)
+logger = logging.getLogger()
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+logger.setLevel(logging.DEBUG)
+
+
 #--------global parameters-------
 
 file_path = r"C:\Users\user\Documents\Python kezdőknek\python_hu5\homeworks\nadudvarivirag\hw_04_exceptions_logging\homework.txt"
