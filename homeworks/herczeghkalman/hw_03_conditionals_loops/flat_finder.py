@@ -20,10 +20,7 @@ while True:
     rent = int(input("Mennyi a havi lakbér USD-ben? "))
 
     if city in ("New York", "San Francisco") and rent < 4000:
-        if rent < 4000:
-            print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
-        else:
-            print(f"Sarah nem fogadja el a {city}-i ajánlatot havi {rent} USD-ért.")
+        print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
 
     elif city == "Washington":
         print(f"Sarah nem fogadja el a {city}-i ajánlatot.")
