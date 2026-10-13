@@ -13,9 +13,6 @@ elif city == "Chicago":
 elif city in ["New York", "San Francisco"] and rent < 4000:
     decision = ""
 
-elif city in ["New York", "San Francisco"] and rent >= 4000:
-    decision = "not "
-
 elif rent < 3000:
     decision = ""
 
