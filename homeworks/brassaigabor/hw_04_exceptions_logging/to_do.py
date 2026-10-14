@@ -87,7 +87,6 @@ def display_menu():
         submenu[instruction]()
 
         if instruction == 4:
-
             break
 
         input("Press Enter to continue...")
