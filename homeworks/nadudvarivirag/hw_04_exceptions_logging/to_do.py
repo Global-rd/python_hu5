@@ -1,11 +1,12 @@
 import logging
 import os
+from pathlib import Path
 print(os.getcwd())
 
 
 #--------logging-----------
 
-file_handler = logging.FileHandler("homewrok.log")
+file_handler = logging.FileHandler("homework.log")
 stream_handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
@@ -20,7 +21,7 @@ logger.setLevel(logging.DEBUG)
 
 #--------global parameters-------
 
-file_path = r"C:\Users\user\Documents\Python kezdőknek\python_hu5\homeworks\nadudvarivirag\hw_04_exceptions_logging\homework.txt"
+file_path = Path("homeworks")/"nadudvarivirag"/"hw_04_exceptions_logging"/"homework.txt"
 tasks_list = []
 
 #-------defining program functions-------
