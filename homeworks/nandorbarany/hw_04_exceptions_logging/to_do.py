@@ -2,6 +2,8 @@ import logging
 import logging.config
 from pathlib import Path
 
+# logging setup
+
 LOG_DIR = Path("hw_04_exceptions_logging")
 LOG_DIR.mkdir(exist_ok=True)
 
@@ -24,7 +26,7 @@ LOGGING_CONFIG = {
         },
         "file": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOG_DIR / "app.log",
+            "filename": LOG_DIR / "to_do.log",
             "maxBytes": 10_000_000,
             "backupCount": 5,
             "formatter": "default",
@@ -37,18 +39,18 @@ LOGGING_CONFIG = {
     },
 }
 
-
+# functions
 def setup_logging():
     logging.config.dictConfig(LOGGING_CONFIG)
 
 
 setup_logging()
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__ == "to_do")
 
 
 def read_file_line_by_line(file_path):
     """
-    soronkénti beolvasás
+    soronkénti beolv
     """
     with open(file_path, "r") as file:
         for line in file:
@@ -88,12 +90,12 @@ def view_tasks(tasks):
     """
     feladatok megjelenítése
     """
-    logger.debug("Displaying tasks.")
+    logger.info("Displaying tasks.")
     if len(tasks) == 0:
-        print("No tasks.")
+        print("No tasks in file.")
         return
-    for id, task in enumerate(tasks, 1):
-        print(f"{id} - {task}")
+    for number, task in enumerate(tasks, 1):
+        print(f"{number} - {task}")
 
 
 def add_task(tasks, task):
@@ -134,7 +136,7 @@ def main():
         display_menu()
         choice = input("Choose an option (1-4): ")
 
-        if choice not in ["1", "2", "3", "4"]:
+        if choice < "1" or choice > "4":
             logger.warning(f"Invalid menu choice: {choice}")
             print("Please enter 1, 2, 3 or 4.")
         elif choice == "1":
@@ -153,6 +155,5 @@ def main():
             write_tasks(tasks=tasks, file_path=FILE_PATH)
             logger.info("Application finished.")
             break
-
 
 main()
