@@ -32,21 +32,18 @@ def task_display():
         if not tasks:
             print("Don't have task")
         else:
-            for i in tasks:
-                print(i)
+            for i, task in enumerate(tasks, 1):
+                print(i,task)
         return tasks
 
 def task_add(task):
-    task = input("Enter a task: ")
     if not task:
         print("Task cannot be empty.")
         return
     tasks.append(task)
     
 def task_delete(d_task):
-    for i, task in enumerate(tasks, 1):
-        print(i, task)
-    d_task= int(input("Which sequence number are you deleting?"))
+    
     if 1 <= d_task <= len(tasks):
         del tasks[d_task-1]
     else:
@@ -62,10 +59,13 @@ def display_menu():
         choice = input("What do you want to do? 1,2,3,4?")
 
         if choice == "1":
+            task = input("Enter a task: ")
             task_add(task)
         elif choice == "2":
             task_display()
         elif choice == "3":
+            task_display()
+            d_task= int(input("Which sequence number are you deleting?"))
             task_delete(d_task)
         elif choice == "4":
              task_write()
