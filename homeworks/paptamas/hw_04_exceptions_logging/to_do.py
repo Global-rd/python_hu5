@@ -20,9 +20,13 @@ def read_tasks():
             tasks = [line.strip() for line in file.readlines()]
             logging.info("Tasks loaded successfully.")
             return tasks
+
     except FileNotFoundError:
-        logging.warning("Tasks file not found. Starting with an empty task list.")
+        logging.warning(
+            "Tasks file not found. Starting with an empty task list."
+        )
         return []
+
     except Exception as error:
         logging.error(f"Error while reading tasks: {error}")
         return []
@@ -59,12 +63,23 @@ def add_task(tasks, task):
 
 
 def remove_task(tasks, task_number):
+    # Guard clause
+    if task_number < 1:
+        print("Task number cannot be lower than 1.")
+        logging.warning(
+            "User entered a task number lower than 1."
+        )
+        return
+
     try:
         removed_task = tasks.pop(task_number - 1)
         logging.info(f"Task removed: {removed_task}")
+
     except IndexError:
         print("Invalid task number.")
-        logging.warning("User tried to remove a non-existing task.")
+        logging.warning(
+            "User tried to remove a non-existing task."
+        )
 
 
 def display_menu():
@@ -81,19 +96,27 @@ def main():
     while True:
         display_menu()
 
-        choice = input("Select an option (1-4): ").strip()
+        choice = input(
+            "Select an option (1-4): "
+        ).strip()
 
         if choice not in ["1", "2", "3", "4"]:
-            print("Invalid option. Please choose between 1 and 4.")
+            print(
+                "Invalid option. Please choose between 1 and 4."
+            )
             continue
 
         if choice == "1":
-            task = input("Enter task description: ").strip()
+            task = input(
+                "Enter task description: "
+            ).strip()
 
             if task:
                 add_task(tasks, task)
             else:
-                print("Task description cannot be empty.")
+                print(
+                    "Task description cannot be empty."
+                )
 
         elif choice == "2":
             display_tasks(tasks)
@@ -103,14 +126,18 @@ def main():
 
             try:
                 task_number = int(
-                    input("Enter the task number to remove: ")
+                    input(
+                        "Enter the task number to remove: "
+                    )
                 )
 
                 remove_task(tasks, task_number)
 
             except ValueError:
                 print("Please enter a valid number.")
-                logging.warning("Invalid task number entered.")
+                logging.warning(
+                    "Invalid task number entered."
+                )
 
         elif choice == "4":
             write_tasks(tasks)
