@@ -6,7 +6,7 @@ city_name = input("city : ").strip().title()
 rent = input("monthly rent : ")
 rent_int = int(rent)
 move = "can't" # egyéb város 3000 töl nagyobb lakbár esetén marad ez az érték
-if (city_name == "New York" or city_name == "San Francisco") and (rent_int < 4000):
+if city_name in ("New York", "San Francisco") and rent_int < 4000:
     move_status = "can"
 elif (city_name == "Washington"):
     move_status = "can't"

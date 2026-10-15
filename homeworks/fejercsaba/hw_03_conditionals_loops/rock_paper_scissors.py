@@ -35,20 +35,18 @@ while True:
     if a_choice == b_choice:                                        # döntetlen
             print("Draw!")
             #continue
-    elif  (     (a_choice == "rock" and b_choice == "scissors")     # esetek amikor A nyer
+    elif    (   (a_choice == "rock" and b_choice == "scissors")     
             or (a_choice == "paper" and b_choice == "rock")
-            or (a_choice == "scissors" and b_choice == "paper")   ):
+            or (a_choice == "scissors" and b_choice == "paper")   ):    # esetek amikor A nyer
 
         score_a +=1
         round +=1
         print("A wins this round!")
-    elif  (     (b_choice == "rock" and a_choice == "scissors")     # esetek amikor B nyer
-            or (b_choice == "paper" and a_choice == "rock")
-            or (b_choice == "scissors" and a_choice == "paper")   ):
-
+    else:   # esetek amikor B nyer   
         score_b +=1
         round +=1
         print("B wins this round!")
+        
     if round > round_num:
         break
 
@@ -56,12 +54,12 @@ while True:
 #eredmény kiíratás
 print(f"Player A score: {score_a}")
 print(f"Player B score: {score_b}")
-print("Összegzés:")
+print("Summary:")
 dif = abs(score_a - score_b)
 if score_a > score_b:
-    print(f"A nyert {dif} ponttal.")
+    print(f"A won by {dif} ponts.")
 else:
-    print(f"B nyert {dif} ponttal.")
+    print(f"B won by {dif} ponts.")
 
 
 
