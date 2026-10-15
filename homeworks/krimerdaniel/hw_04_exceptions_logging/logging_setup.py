@@ -2,7 +2,7 @@ import logging
 import logging.config
 from pathlib import Path
 
-LOG_DIR = Path("logs")
+LOG_DIR = Path("homeworks") /"krimerdaniel"/ "hw_04_exceptions_logging" / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
 LOGGING_CONFIG = {
@@ -34,9 +34,13 @@ LOGGING_CONFIG = {
     },
     "root": { 
         "handlers": ["console", "file"],
-        "level": "ERROR"
+        "level": "INFO"
     },
 }
 
 def setup_logging():
     logging.config.dictConfig(LOGGING_CONFIG)
+
+
+
+

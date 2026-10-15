@@ -53,10 +53,14 @@ Opening existing or creating to do list file and reading in its content line by 
 def open_file():
     global to_do_list
     to_do_list = []
-    with open(file_path, 'r') as file:
-        to_do_list = file.read().splitlines()
-    print("Welcome to your 'To do' list! Manage it as you see fit.")
-    logger.info("File opened / created, its content is read in to list.")
+    try:
+        with open(file_path, 'a+') as file:
+            file.seek(0)
+            to_do_list = file.read().splitlines()
+        print("Welcome to your 'To do' list! Manage it as you see fit.")
+        logger.info("File opened / created, its content is read in to list.")
+    except FileNotFoundError as e:
+        logger.error(f"File not found. {e}")
 
 
 # Displaying menu options
