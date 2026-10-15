@@ -38,15 +38,15 @@ def read_tasks(file_path):
             tasks = file.readlines()
         return tasks
     
-    except FileNotFoundError:
-        logging.warning("Task file is not found.")
+    except FileNotFoundError as e:
+        logging.warning(f"Task file is not found. {e}")
         return[]
 
-    except PermissionError:
-        logging.warning("You do not have permission, please turn to the IT department.")
+    except PermissionError as e:
+        logging.warning(f"You do not have permission, please turn to the IT department. {e}")
 
-    except ValueError:
-        logging.warning("The file is wrong extension.")
+    except ValueError as e:
+        logging.warning(f"The file is wrong extension. {e}")
 
 #Feladat írása
 def write_tasks(tasks):
@@ -59,8 +59,8 @@ def write_tasks(tasks):
                 file.write(task +"\n")
         return True
     
-    except OSError:
-        logging.error("No space left in file.")
+    except OSError as e:
+        logging.error(f"No space left in file. {e}")
 
 #Feladat hozzáadása, ha a szóközök eltávolítása után marad még valamilyen szöveg
 def add_task(tasks, task):
@@ -120,8 +120,9 @@ def main():
         
         try:
             options = int(input("Please choose an option from the list: "))
-        except ValueError:
-            logging.warning("Please enter a valid number from the list.")
+            
+        except ValueError as e:
+            logging.warning(f"Please enter a valid number from the list. {e}")
             continue
 
 #Új feladatot lehet megadni
