@@ -1,3 +1,5 @@
+
+
 city = input("Add meg a várost: ")
 rent = int(input("Add meg a havi lakbért USD-ben: "))
 
@@ -11,3 +13,5 @@ else:
     can_move = rent <= 3000
 
 print(fSarah be tud költözni: {can_move}")
+
+      
