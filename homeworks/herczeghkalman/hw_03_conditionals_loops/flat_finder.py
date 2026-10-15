@@ -22,6 +22,7 @@ while True:
     if city in ("New York", "San Francisco") and rent < 4000:
         print(f"Sarah elfogadja a {city}-i ajánlatot havi {rent} USD-ért.")
 
+
     elif city == "Washington":
         print(f"Sarah nem fogadja el a {city}-i ajánlatot.")
 
