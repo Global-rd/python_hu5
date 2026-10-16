@@ -1,0 +1,3 @@
+Python tanfolyam
+Edzés
+Monti-Python :)
