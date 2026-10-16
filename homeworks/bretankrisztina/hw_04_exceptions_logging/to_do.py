@@ -80,12 +80,10 @@ def remove_task(tasks, task_number: int):
     """
     Remove tasks from the .txt file with Exit option.
     """
-    if task_number >= 0:
+    if len(tasks) > task_number >= 1:
         removed_task = tasks.pop(task_number - 1)
         logging.info(f"Task removed: {removed_task}")
         print("Task removing is successfully.")
-    elif task_number > len(tasks):
-        print("Invalid task number.")
 
 #Feladat megjelenítése
 def view_task(tasks):
@@ -138,11 +136,22 @@ def main():
 #Törölni kell a kiválasztott sort
         elif options == 3:
             view_task(tasks)
-            if tasks:
-                task_number = int(input("Enter a removing task number: "))
-                remove_task(tasks, task_number)
-            else:
-                "There is not a good option, please choose an other one from the list."
+            
+            while True:
+                try:
+                    if tasks:
+                        task_number = int(input("Enter the number of the task you want to remove, or enter 0 to return to the main menu: "))
+                        if len(tasks) > task_number >= 1:
+                            remove_task(tasks, task_number)
+                            break
+                        elif task_number == 0:
+                            break
+                        else:
+                            print("Invalid option. Please choose another option from the list.")  
+                        continue
+                except ValueError as e:
+                    logging.warning(f"Please enter a valid number from the list. {e}")
+                    continue
 
 #Ki kell lépni a programból .txt mentéssel
         elif options == 4:
