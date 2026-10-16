@@ -13,7 +13,10 @@ elif city == "chicago":
 else:
     move_in <= 3000
 
-# print f 
-status = "You can move in" if move_in else "You can't move in"
+# Ternary 
+# ez így jó??
+ability = "can" if move_in else "can't"
 
-print(f"If the apartment is located in {city.title()} and costs {rent_cost} a month, Sarah {status}.")
+# 
+print(f"If the apartment is located in {city.title()} and costs ${rent_cost} a month, Sarah {ability} move in.")
+
