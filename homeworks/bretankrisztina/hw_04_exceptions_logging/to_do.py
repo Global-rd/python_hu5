@@ -36,6 +36,7 @@ def read_tasks(file_path):
     try:
         with open(file_path, "r", encoding= "utf-8") as file:
             tasks = file.readlines()
+            tasks = [line.strip() for line in tasks]
         return tasks
     
     except FileNotFoundError as e:
