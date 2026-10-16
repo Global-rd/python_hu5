@@ -102,7 +102,7 @@ def choose_menu():
                 return choice
             else:
                 print("Invalid number, try again!")
-                logging,warning("user enter invalid menu option {choice}")
+                logging.warning("user enter invalid menu option {choice}")
         except ValueError:
             print("plz. add a number")
             logging.warning("user entered a non integer value")
