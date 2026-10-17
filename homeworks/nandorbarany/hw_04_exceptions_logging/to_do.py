@@ -45,7 +45,7 @@ def setup_logging():
 
 
 setup_logging()
-logger = logging.getLogger(__name__ == "to_do")
+logger = logging.getLogger("to_do")
 
 
 def read_file_line_by_line(file_path):
@@ -136,7 +136,7 @@ def main():
         display_menu()
         choice = input("Choose an option (1-4): ")
 
-        if choice < "1" or choice > "4":
+        if choice not in ("1", "2", "3", "4"):
             logger.warning(f"Invalid menu choice: {choice}")
             print("Please enter 1, 2, 3 or 4.")
         elif choice == "1":
