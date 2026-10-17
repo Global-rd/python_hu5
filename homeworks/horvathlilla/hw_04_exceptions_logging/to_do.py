@@ -63,7 +63,7 @@ def add_task(task):
 
 
 def remove_task(task):
-    task_to_remove = task + '\n'
+    task_to_remove = task
     if task_to_remove in task_list:
         task_list.remove(task_to_remove)
         write_tasks()
