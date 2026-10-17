@@ -15,6 +15,7 @@ def main():
     fleet.add_car(trabi)
     fleet.add_car(bogar)
     fleet.add_car(ezerkecske)
+    fleet.add_car(wartbi)
 
     print(fleet)
 
