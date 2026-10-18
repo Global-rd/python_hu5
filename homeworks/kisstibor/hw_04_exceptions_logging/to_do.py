@@ -163,8 +163,7 @@ def main():
 
         else:
             print("Érvénytelen választás. 1 és 4 közötti számot adj meg.")
-            logger.warning("Érvénytelen menüpont: %s", choice)
-
+            logger.warning("Érvénytelen menüpont: %s", menu_choice)
 
 logger = logging.getLogger(__name__)
 
