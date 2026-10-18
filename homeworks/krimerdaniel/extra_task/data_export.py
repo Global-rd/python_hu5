@@ -13,7 +13,7 @@ class CsvHandler:
 class JsonHandler:
     def export(self, data):
         df = pd.DataFrame([data])
-        df.to_json(file_path/"exported_data.json")
+        df.to_json(file_path/"exported_data.json", orient="records", indent=4)
 
 class XmlHandler:
     def export(self, data):
