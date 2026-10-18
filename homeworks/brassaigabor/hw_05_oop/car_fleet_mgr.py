@@ -52,17 +52,24 @@ class Fleet:
         self.cars = []
     #--------------------------
     def add_car(self, car):
-        if any(
-            c.brand == car.brand and 
-            c.model == car.model and 
-            c.year == car.year
-            for c in self.cars
-        ):
-            print(f"This car already exist in the fleet {car.brand} {car.model} {car.year}")
+        if car in self.cars:
+            print(
+                f"This car already exist in the fleet"
+                f"{car.brand} {car.model} {car.year}"
+                )
             return
         
         self.cars.append(car)
         print(f"{car.brand} {car.model} {car.year} added to the fleet.")
+    #---------------------------
+        def __eq__(self, other):
+            if not isinstance(other, Car):
+                return NotImplemented
+            return (
+                self.brand == other.brand
+                and self.model == other.model
+                and self.year == other.year
+        )
     #---------------------------
     def remove_car(self, car):
         if car in self.cars:
