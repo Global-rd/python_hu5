@@ -8,6 +8,15 @@ class Car:
         self.mileage = 0
         self.fuel_level = 100.0
     #----------------------------
+    def __eq__(self, other):
+        if not isinstance(other, Car):
+            return NotImplemented
+        return (
+            self.brand == other.brand
+            and self.model == other.model
+            and self.year == other.year
+        ) 
+    #----------------------------
     def drive(self, distance):             # 0,1 % -> 1 km /// 1 % -> 10km)
 
         if distance <= 0:
@@ -62,14 +71,6 @@ class Fleet:
         self.cars.append(car)
         print(f"{car.brand} {car.model} {car.year} added to the fleet.")
     #---------------------------
-        def __eq__(self, other):
-            if not isinstance(other, Car):
-                return NotImplemented
-            return (
-                self.brand == other.brand
-                and self.model == other.model
-                and self.year == other.year
-        )
     #---------------------------
     def remove_car(self, car):
         if car in self.cars:
