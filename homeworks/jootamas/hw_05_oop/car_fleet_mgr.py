@@ -36,10 +36,9 @@ class Car:
 
 # Készíts egy Fleet osztályt, amely kezeli a Car objektumokat
 class Fleet:
-  # Az osztály rendelkezzen egy listával, amelyben az autók találhatóak.
-  cars = []
   def __init__(self):
-    pass
+    # Az osztály rendelkezzen egy listával, amelyben az autók találhatóak.
+    self.cars = []
   def add_car(self, *new_cars):
     # Tartalmazzon metódusokat Car objektumok hozzáadására és eltávolítására a flottába/flottából.
     for i, car in enumerate(new_cars, 1):
@@ -56,10 +55,7 @@ class Fleet:
         break
   def sum_mileage(self):
     # Tartalmazzon egy metódust, amely összesíti a flotta összes autójának összes kilométerét.
-    sum = 0
-    for car in self.cars:
-      sum += car.mileage
-    return sum
+    return sum(car.mileage for car in self.cars)
 
 def main():
   """
