@@ -32,10 +32,10 @@ class Car:
             return
         
         if self.fuel_level + fuel_refill_level > 100:
-            print(f"Maximum refill level is {100 - self.fuel_level} °%")
+            print(f"Maximum refill amount is {100 - self.fuel_level} %")
             return
         self.fuel_level += fuel_refill_level
-
+    #----------------------------
     def display_all_info(self):
         print(f"    Brand:              {self.brand}\n"
               f"    Model:              {self.model}\n"
@@ -52,6 +52,15 @@ class Fleet:
         self.cars = []
     #--------------------------
     def add_car(self, car):
+        if any(
+            c.brand == car.brand and 
+            c.model == car.model and 
+            c.year == car.year
+            for c in self.cars
+        ):
+            print(f"This car already exist in the fleet {car.brand} {car.model} {car.year}")
+            return
+        
         self.cars.append(car)
         print(f"{car.brand} {car.model} {car.year} added to the fleet.")
     #---------------------------
@@ -74,7 +83,7 @@ class Fleet:
             print("---")
 
         print(f"Number of cars: {len(self.cars)}")
-        print(f"Total mileage: {self.total_mileage()}")
+        print(f"Total mileage: {self.total_mileage()}km")
 
 #--------------------------------------------------
 
@@ -86,6 +95,8 @@ if __name__ == "__main__":
     car3 = Car("Opel","Zafira", 2010)
     car4 = Car("BMW", "M3", 2000)
     car5 = Car("Trabant", "", 1980)
+    car6 = Car("Trabant", "", 1980)
+    car7 = Car("Trabant", "", 1981)
 
     # fleet feltoltese
     fleet = Fleet()
@@ -97,6 +108,8 @@ if __name__ == "__main__":
     fleet.add_car(car3)
     fleet.add_car(car4)
     fleet.add_car(car5)
+    fleet.add_car(car6)
+    fleet.add_car(car7)
 
     print("\n")
     fleet.display_fleet()
