@@ -49,8 +49,8 @@ class Car:
         print(f"    Brand:              {self.brand}\n"
               f"    Model:              {self.model}\n"
               f"    Year:               {self.year}\n"
-              f"    Mileage:            {self.mileage}\n"
-              f"    Left fuel level:    {self.fuel_level}"
+              f"    Mileage:            {self.mileage} km\n"
+              f"    Left fuel level:    {self.fuel_level} %"
               )
 
 #---------------------------------------
@@ -61,23 +61,23 @@ class Fleet:
         self.cars = []
     #--------------------------
     def add_car(self, car):
+        car_info = f"{car.brand} {car.model} {car.year}"
         if car in self.cars:
             print(
-                f"This car already exist in the fleet"
-                f"{car.brand} {car.model} {car.year}"
-                )
+                f"This car already exist in the fleet: {car_info}")
             return
         
         self.cars.append(car)
-        print(f"{car.brand} {car.model} {car.year} added to the fleet.")
+        print(f"{car_info} added to the fleet.")
     #---------------------------
     #---------------------------
     def remove_car(self, car):
+        car_info = f"{car.brand} {car.model} {car.year}"
         if car in self.cars:
             self.cars.remove(car)
-            print(f"{car.brand} {car.model} {car.year} removed from the fleet.")
+            print(f"{car_info} removed from the fleet.")
         else:
-            print(f"{car.brand} {car.model} {car.year} is not in the fleet!")
+            print(f"{car_info} is not in the fleet!")
     #----------------------------
     def total_mileage(self):
         return(sum(i.mileage for i in self.cars))
