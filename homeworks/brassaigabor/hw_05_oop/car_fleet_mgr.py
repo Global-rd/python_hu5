@@ -8,6 +8,7 @@ class Car:
         self.mileage = 0
         self.fuel_level = 100.0
     #----------------------------
+    """
     def __eq__(self, other):
         if not isinstance(other, Car):
             return NotImplemented
@@ -16,6 +17,7 @@ class Car:
             and self.model == other.model
             and self.year == other.year
         ) 
+        """
     #----------------------------
     def drive(self, distance):             # 0,1 % -> 1 km /// 1 % -> 10km)
 
