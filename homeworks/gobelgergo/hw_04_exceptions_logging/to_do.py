@@ -27,7 +27,7 @@ file_path = Path("homeworks")/"gobelgergo"/"hw_04_exceptions_logging"/"tasks.txt
 def read_tasks():
     loaded_tasks = []
     try:
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 loaded_tasks.append(line.strip())
