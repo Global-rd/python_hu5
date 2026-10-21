@@ -2,7 +2,6 @@
 Car Fleet Manager
 """
 
-
 class Car:
     # Autó osztály.
 
@@ -83,15 +82,23 @@ class Fleet:
         self.cars = []
 
     def add_car(self, car):
-        # Autó hozzáadása.
+    # Autó hozzáadása.
 
-        self.cars.append(car)
+     if car in self.cars:
+        print("Ez az autó már szerepel a flottában.")
+        return
 
+     self.cars.append(car)
+
+   
     def remove_car(self, car):
-        # Autó eltávolítása.
+    # Autó eltávolítása.
 
-        if car in self.cars:
-            self.cars.remove(car)
+     if car in self.cars:
+        print("Ez az autó még nem szerepel a flottában.")
+        return
+        
+     self.cars.remove(car)
 
     def get_total_mileage(self):
         # Flotta összes kilométere.
