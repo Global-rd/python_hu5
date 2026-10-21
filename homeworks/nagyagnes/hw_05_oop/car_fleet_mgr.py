@@ -44,17 +44,19 @@ class Car:
 
 class Fleet:
     def __init__(self) -> None:
-        self.cars = []  # az uatók listája
+        self.cars = []  # az autók listája
 
-    def add_car(self, car: Car) -> None:
+    def add_car(self, car: Car) -> None: 
+       
+        if car in self.cars:
+            raise ValueError(f"{car} already present in fleet")
         self.cars.append(car)
 
     def remove_car(self, car: Car) -> None:
-            # megkeressük a listában
-        for fleet_car in self.cars:
-            if fleet_car == car:
-                self.cars.remove(fleet_car)
-                return  # megvan
+        if car not in self.cars:
+            raise ValueError(f"{car} is not present in fleet")
+
+        self.cars.remove(car)
 
     def get_total_mileage(self) -> float:
         total = 0
@@ -101,7 +103,6 @@ def main():
     car_3.refuel(150)  # max 100%
     car_4.refuel(15)
 
-    # ezt is vettük órán, lehet, hogy itt nem szükséges
     try:
         car_1.drive(-50)
     except InvalidAmountError as error:
