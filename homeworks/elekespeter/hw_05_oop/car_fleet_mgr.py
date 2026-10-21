@@ -71,6 +71,14 @@ class Fleet:
         self.cars = []
 
     def add_car(self, car: Car) -> None:
+        # Az "in" a háttérben __eq__()-t hív. Mivel a Car nem írja felül,
+        # az object.__eq__() fut le, ami az objektum azonosságát (memóriacímét)
+        # nézi: két ugyanolyan márkájú és évjáratú autó is felvehető,
+        # de ugyanazt az objektumot kétszer nem lehet hozzáadni.
+        if car in self.cars:
+            print(f"Ez az autó már a flottában van: {car.brand} {car.model}")
+            return
+
         self.cars.append(car)
         print(f"Hozzáadva a flottához: {car.brand} {car.model}")
 
@@ -107,6 +115,7 @@ def main():
     fleet.add_car(car_1)
     fleet.add_car(car_2)
     fleet.add_car(car_3)
+    fleet.add_car(car_1)  # ugyanaz az objektum még egyszer -> nem kerül be újra
 
     # 3. Műveletek: vezetés, tankolás
     print("\n--- Műveletek ---")
