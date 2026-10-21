@@ -18,7 +18,21 @@ MENU = {
 }
 
 # Reading the tasks and checking for the right format (no commas allowed in the task)
+'''
+ha itt nem létezik a file, akkor ez a method raise-el egy FileNotFoundError-t, 
+amit a 104. soron egy return-nel kezelsz. Vagyis ha amikor először elindítom a programot
+ és nem létezik a file, akkor kilép a program.
+Ennél felhasználóbarátabb megoldás lenne, ha ez a function lekezelné a FileNotFounderror-t, 
+és ebben az esetben egy üres listával térne vissza 
+(ha nincs file, akkor nincsenek korábbi feladatok sem).
+
+Megsz: https://www.geeksforgeeks.org/python/python-os-path-exists-method/ can it be os.parh.exists() or pathlib.Path.exists()?
+'''
 def read_tasks(file_path):# read tasks from a file or database
+    if not file_path.exists():
+        logger.warning(f"Tasks file not found: {file_path}. Returning empty task list.")
+        return []
+    
     with open(file_path, "r") as file:
         lines = file.readlines()
     
@@ -63,6 +77,13 @@ def user_input_number(prompt): # expects an integer
             logger.warning(f"Invalid input for number: {user_input}")
 
 # Checking for a string and sorting empty input and commas out
+'''
+Sok mindenre számítok egy kezdő python kurzuson 
+de rekurzív függvényhívásokra nem voltam felkészülve :)
+
+Megsz: Mea culpa, tényleg nem tudtam mi a rekurzív függvényhívás.
+Igazából mi változott, hogy kivettem a függvényből a rekurzív hívást?
+'''
 def user_input_string(prompt): 
     while True:
         user_input = input(prompt).strip()
@@ -70,11 +91,9 @@ def user_input_string(prompt):
         if not user_input.strip():
             print("Input cannot be empty. Please enter a valid string.")
             logger.warning("Empty input received for string.")
-            return user_input_string(prompt)  
         elif "," in user_input:
             print("Input cannot contain commas. Please enter a valid string.")
             logger.warning(f"Invalid input for string (contains comma): {user_input}")
-            return user_input_string(prompt)
         else:
             return user_input  
 
@@ -83,9 +102,15 @@ def display_menu():
     print("\n--- Task Manager ---")
     for number, menu_option in MENU.items():
         print(f"{number}. {menu_option}")
+'''
+tt a choice paraméter amit megkap, így fölösleges mert bármi lesz átadva, 
+úgyis felülírod a user input-tal. 
+A tasks pedig nincs használva egyáltalán, így igazából mindkét paraméter fölösleges.
 
+Megsz: fixed
+'''
 # Navigating in the menu
-def handle_menu_choice(choice, tasks):
+def get_menu_choice():
     while True:
         display_menu()
         choice = user_input_number("Enter your choice: ")
@@ -97,15 +122,13 @@ def handle_menu_choice(choice, tasks):
 # Main function to run the program
 def main():
     # read the tasks from the file and check for missing file or invalid format
-    try:
-        tasks = read_tasks(TASKS_FILE) 
-    except FileNotFoundError as error:
-        logger.error(f"Tasks file not found: {error}")
-        return
+    
+    tasks = read_tasks(TASKS_FILE) 
+    
 
     # rotating the menu
     while True:
-        choice = handle_menu_choice(None, tasks)
+        choice = get_menu_choice()
         # adding a task
         if choice == 1:
             task = user_input_string("Enter the task to add: ")
