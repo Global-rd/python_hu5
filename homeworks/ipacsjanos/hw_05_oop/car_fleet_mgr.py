@@ -14,6 +14,11 @@ class Car:
 
     def drive(self, kilometers):
         """Vezetés metódus: növeli a kilométert és csökkenti az üzemanyagot (0.1% / km)."""
+        # Ellenőrizzük, hogy a megadott kilométer nem negatív-e
+        if kilometers < 0:
+            print(f"[DRIVE] Hiba: Negatív kilométert ({kilometers} km) nem lehet vezetni!")
+            return
+
         # Kiszámoljuk, hogy a kért távolsághoz mennyi üzemanyag kellene
         needed_fuel = kilometers * 0.1
         
@@ -59,8 +64,12 @@ class Fleet:
 
     def add_car(self, car):
         """Új Car objektum hozzáadása a flottához."""
-        self.cars.append(car)
-        print(f"[FLEET] {car.brand} {car.model} hozzáadva a flottához.")
+        # Ellenőrizzük az 'in' operátorral, hogy az autó benne van-e már a listában
+        if car in self.cars:
+            print(f"[FLEET] Hiba: {car.brand} {car.model} már korábban hozzá lett adva a flottához!")
+        else:
+            self.cars.append(car)
+            print(f"[FLEET] {car.brand} {car.model} hozzáadva a flottához.")
 
     def remove_car(self, car):
         """Egy Car objektum eltávolítása a flottából, ha benne van."""
@@ -103,24 +112,31 @@ if __name__ == "__main__":
     my_fleet.add_car(car1)
     my_fleet.add_car(car2)
     my_fleet.add_car(car3)
+    
+    # Új szűrés tesztelése: megpróbáljuk a car1-et újra hozzáadni
+    my_fleet.add_car(car1)
 
     # Megnézzük a kezdő állapotot
     my_fleet.display_fleet_status()
 
     # 3. Műveletek végrehajtása (Vezetés és Tankolás)
     print("--- Műveletek indítása ---")
-    car1.drive(300)   # 300 km vezetés -> 30% üzemanyag fogy, marad 70%
-    car2.drive(1200)  # 1200 km-t akarunk vezeti -> nincs elég üzemanyag (csak 1000 km-re elég)
+    car1.drive(300)   # 300 km vezetés
+    
+    # Új szűrés tesztelése: megpróbálunk negatív kilométert vezetni
+    car1.drive(-50)
+    
+    car2.drive(1200)  # Nincs elég üzemanyag (csak 1000 km-re elég)
     
     # Státusz ellenőrzése a műveletek után
     my_fleet.display_fleet_status()
 
     # Tankolás tesztelése
-    car2.refuel(50)   # Tankolunk 50%-ot a kiürült Toyotába
-    car1.refuel(40)   # A Fordba 40%-ot tankolunk (70+40=110 lenne, de lekorlátoz 100-ra)
+    car2.refuel(50)   
+    car1.refuel(40)   
 
     # Vezetés tankolás után
-    car2.drive(200)   # Most már tud menni a Toyota
+    car2.drive(200)   
 
     # 4. Egy autó eltávolítása a flottából tesztelésképp
     print("\n--- Flotta módosítása ---")
