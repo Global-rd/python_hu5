@@ -53,7 +53,7 @@ class Fleet:
         for car in self.fleet:
             if removed_car == car:
                 self.fleet.remove(car)
-            return
+                return
         print(f"Car {removed_car} could not be removed, as it is not found in the fleet!")
 
         """Metodus Car objektum eltavolitasara"""
