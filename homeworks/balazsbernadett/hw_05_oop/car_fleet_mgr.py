@@ -70,7 +70,6 @@ fleet.add_car(car1)
 fleet.add_car(car2)
 fleet.add_car(car3)
 
-
 fleet.remove_car("Mini", "Cooper")
 fleet.total_mileage()
 
