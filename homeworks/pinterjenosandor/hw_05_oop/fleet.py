@@ -7,8 +7,11 @@ class Car:
         self.fuel_level = 100.0  #the level of fuel tank, default state is 100 litre because the consumption is 0.1 litre/km
 
     def drive(self, distance):
+        if distance < 0:  #check the entered distance not negative number, we wait positive distance (float)
+            raise ValueError("Distance must be positive") 
+
         km_litre = 0.1 #the car consumption / kilometer
-        required_fuel = distance * km_litre #driving distance calulation by consumption
+        required_fuel = distance * km_litre #driving distance calculation by consumption
 
         if self.fuel_level <= 0: # check the tank, if it's empty we cannot drive it
             print(f"You cannot drive the car, because the {self.brand} {self.model}'s tank is empty!")
@@ -56,6 +59,10 @@ class Fleet:
         self.vehicles = [] #list of the cars
 
     def add_vehicle(self, car): #add car to the list
+        if car in self.vehicles:
+            print("The vehicle is already in the fleet list")
+            return
+
         self.vehicles.append(car) #add car to the list via append
         print(f"New car added to the fleet: {car.brand} {car.model}") # text the car added to the list
 
@@ -80,19 +87,19 @@ class Fleet:
 
 
 def choose_menu():
-    choose_items = ["Add vehicle to the Fleet", "Driving with the vehicle", "Refueling of the vehicle","Current status of the Fleet", "Exit"]
+    choose_items = ["Add vehicle to the Fleet", "Remove vehicle from the list", "Driving with the vehicle", "Refueling of the vehicle","Current status of the Fleet", "Exit"]
     print("\nWelcome in the Fleet management:")
     for i, choice in enumerate(choose_items, 1):
         print(f"{i}. {choice}")
     while True:
         try:
-            choice = int(input("Please select from the menu (1-5): ").strip())
-            if 1 <= choice <= 5:
+            choice = int(input("Please select from the menu (1-6): ").strip())
+            if 1 <= choice <= 6:
                 return choice
             else:
                 print("Invalid choice, please try again!")
         except ValueError:
-            print("Please add a number between 1-5!")
+            print("Please add a number between 1-6!")
 
 
 def main():
@@ -117,7 +124,19 @@ def main():
             new_car = Car(brand, model, year)
             my_fleet.add_vehicle(new_car)
 
-        elif user_choice == 2: #select the vehicle to drive
+        elif user_choice == 2:  #remove the vehicle from the list
+            if not my_fleet.vehicles:
+                print("No cars in the fleet! Add one first.")
+                continue
+
+            my_fleet.current_status()
+            car_idx = int(input("Enter the ID of the vehicle what do you want to remove: ")) - 1
+            if 0 <= car_idx < len(my_fleet.vehicles):
+                my_fleet.rem_vehicles(car_idx)
+            else:
+                print("Invalid car ID!")
+
+        elif user_choice == 3: #select the vehicle to drive
             if not my_fleet.vehicles:
                 print("No cars in the fleet! Add one first.")
                 continue
@@ -125,12 +144,21 @@ def main():
             my_fleet.current_status()
             car_idx = int(input("Enter the ID of the vehicle what do you want to drive: ")) - 1
             if 0 <= car_idx < len(my_fleet.vehicles):
-                km = float(input("Enter distance what do you want to drive (km): "))
+                while True: #check the input, not to be negative
+                    try:
+                        km = float(input("Enter distance what do you want to drive (km): "))
+                        if km < 0:
+                            print("The vehicle connot run negative distance!")
+                            continue 
+                        break
+                    except ValueError:
+                        print("Please add a positive number!")
+
                 my_fleet.vehicles[car_idx].drive(km)
             else:
                 print("Invalid car ID!")
 
-        elif user_choice == 3:
+        elif user_choice == 4:
             if not my_fleet.vehicles:
                 print("No cars in the fleet!")
                 continue
@@ -143,10 +171,10 @@ def main():
             else:
                 print("The ID of the vehicle is not avalible, please try again!")
 
-        elif user_choice == 4:
+        elif user_choice == 5:
             my_fleet.current_status()
 
-        elif user_choice == 5:
+        elif user_choice == 6:
             print("See you!")
             break
 
