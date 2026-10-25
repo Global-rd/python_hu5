@@ -8,6 +8,8 @@ class Car:
         self.fuel_level = 100
 
     def drive(self, distance: int) ->None:
+        if distance < 0:
+            raise ValueError("Distance can't be negative")
         max_distance = self.fuel_level / 0.1
         print(f"You can drive: {max_distance} km")
         if distance > max_distance:
@@ -17,7 +19,8 @@ class Car:
             self.fuel_level -= distance * 0.1
 
     def refuel(self, add_fuel: int) -> None:
-   
+        if add_fuel <0:
+            raise ValueError("Can't be negative")
         if self.fuel_level + add_fuel > 100:
             print(f"You can't add that much")
         elif self.fuel_level + add_fuel <= 100:
@@ -48,7 +51,7 @@ class Fleet:
         for car in self.cars:
             total += car.mileage
         print(f"total mileage: {total}")
-
+        return total
 car1 = Car("WV", "polo", 2000)
 print(car1)
 car1.drive(500)
