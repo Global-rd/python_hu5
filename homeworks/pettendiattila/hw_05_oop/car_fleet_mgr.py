@@ -10,7 +10,7 @@ class Car:
     def drive(self, km: float):
         """
         1 km megtételéhez 0.1% üzemanyag fogy.
-               """
+        """
 
         # Negatív távolság ellenőrzése
         if km < 0:
@@ -69,8 +69,11 @@ class Fleet:
 
     def add_car(self, car: Car):
         """Autó hozzáadása a flottához."""
-        self.cars.append(car)
-        print(f"Hozzáadva a flottához: {car.brand} {car.model}")
+        if car not in self.cars:
+            self.cars.append(car)
+            print(f"Hozzáadva a flottához: {car.brand} {car.model}")
+        else:
+            print("Hiba: Ez az autó már szerepel a flottában.")
 
     def remove_car(self, car: Car):
         """Autó eltávolítása a flottából."""
