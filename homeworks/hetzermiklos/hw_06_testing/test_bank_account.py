@@ -10,3 +10,8 @@ def account():
 @pytest.fixture
 def second_account():
     return BankAccount("Anna", 500.0)
+
+
+def test_initial_balance(account):
+    assert account.owner == "Miklos"
+    assert account.get_balance() == 1000.0
