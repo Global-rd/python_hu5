@@ -9,18 +9,37 @@ class Car:
         self.mileage = 0.0
         self.fuel_level = 100.0  # In percentage (0.0 - 100.0)
 
-    def drive(self, distance: float):
+    def __eq__(self, other):
+        if not isinstance(other, Car):
+            return False
+        return (self.brand == other.brand and 
+                self.model == other.model and 
+                self.year == other.year)
         """
         Drive a given distance.
         If there is not enough fuel, the car only drives the maximum possible distance.
         1 km = 0.1% fuel consumption.
         """
+    def drive(self, distance: float):
         if distance <= 0:
             print("The distance to travel must be positive.")
-            return
+            return 0 
 
-        # Maximum distance that can be covered with the current fuel level
         max_distance = self.fuel_level / 0.1
+        #print("----------------------------") # test section max distance
+        #print(max_distance) 
+        driven = min(distance, max_distance) # a ténylegesen megtett km a kettő közül a kisebb
+
+        self.mileage += driven
+        self.fuel_level -= driven * 0.1
+        
+        if driven < distance:
+            print(f"[{self.brand} {self.model}] Out of fuel! Managed to drive only {driven:.1f} km out of the requested {distance:.1f} km. Current mileage: {self.mileage:.1f} km, Fuel: 0.0%.")
+        else:
+            print(f"[{self.brand} {self.model}] Successfully drove {driven:.1f} km. Current mileage: {self.mileage:.1f} km, Fuel: {self.fuel_level:.1f}%.")
+            
+        return driven        
+
 
 # Question
     # Could this be done more beautifully, better, or more efficiently?
@@ -64,6 +83,10 @@ class Fleet:
 
     def add_car(self, car: Car):
         """Add a car to the fleet."""
+        if car in self.cars:
+            print(f"Hiba: A(z) {car.brand} {car.model} már szerepel a flottában!")
+            return
+
         self.cars.append(car)
         print(f"Car added to fleet: {car.brand} {car.model}")
 
@@ -100,11 +123,13 @@ if __name__ == "__main__":
     car1 = Car("Toyota", "RAV4", 2020)
     car2 = Car("Ford", "Focus", 2018)
     car3 = Car("BMW", "320i", 2022)
+    car4 = Car("BMW", "320i", 2022)
 
     print("--- Adding cars to the fleet ---")
     fleet.add_car(car1)
     fleet.add_car(car2)
     fleet.add_car(car3)
+    fleet.add_car(car4)
 
     fleet.display_fleet_status()
 
@@ -112,6 +137,7 @@ if __name__ == "__main__":
     car1.drive(300)   # 30% fuel consumed, 70% remaining
     car2.drive(600)   # 60% fuel consumed, 40% remaining
     car3.drive(1200)  # Can only drive 1000 km, tank runs empty (0%)
+    car4.drive(1200)
 
     fleet.display_fleet_status()
 
@@ -119,6 +145,7 @@ if __name__ == "__main__":
     car3.refuel(50)   # Refuel to 50%
     car3.drive(200)   # Drive another 200 km
     car1.refuel(50)   # Fills up to 100%
+    car4.refuel(500)
 
     fleet.display_fleet_status()
 
