@@ -1,6 +1,6 @@
 """
 Készíts egy Car osztályt, amely rendelkezik a következő tulajdonságokkal:
-Márka (brand) , Modell (model), Gyártási év (year), 
+Márka (brand), Modell (model), Gyártási év (year), 
 Kilométeróra állása (mileage), induló értéke 0., Üzemanyag-szint 
  Fleet osztályt, amely kezeli a Car objektumokat: 
 ● Az osztály rendelkezzen egy listával, amelyben az autók találhatóak. 
