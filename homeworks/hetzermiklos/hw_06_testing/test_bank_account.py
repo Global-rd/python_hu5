@@ -26,74 +26,95 @@ def test_default_balance():
     assert account.get_balance() == 0.0
 
 
-def test_negative_initial_balance():
+@pytest.mark.parametrize("invalid_balance", [-1, -100.0, -1000.0])
+def test_negative_initial_balance(invalid_balance):
     with pytest.raises(ValueError):
-        BankAccount("Miklos", -100.0)
+        BankAccount("Miklos", invalid_balance)
 
 
 # 2. Befizetés tesztelése
 
-def test_deposit(account):
-    account.deposit(200.0)
-    assert account.get_balance() == 1200.0
+@pytest.mark.parametrize(
+    "amount, expected_balance",
+    [
+        (100.0, 1100.0),
+        (200.0, 1200.0),
+        (500.0, 1500.0),
+    ]
+)
+def test_deposit(account, amount, expected_balance):
+    account.deposit(amount)
+    assert account.get_balance() == expected_balance
 
 
-def test_deposit_zero(account):
+@pytest.mark.parametrize("invalid_amount", [0, -10, -100.0])
+def test_deposit_invalid_amounts(account, invalid_amount):
     with pytest.raises(ValueError):
-        account.deposit(0)
+        account.deposit(invalid_amount)
 
-
-def test_deposit_negative(account):
-    with pytest.raises(ValueError):
-        account.deposit(-100.0)
+    assert account.get_balance() == 1000.0
 
 
 # 3. Pénzfelvétel tesztelése
 
-def test_withdraw(account):
-    account.withdraw(300.0)
-    assert account.get_balance() == 700.0
+@pytest.mark.parametrize(
+    "amount, expected_balance",
+    [
+        (100.0, 900.0),
+        (300.0, 700.0),
+        (500.0, 500.0),
+        (1000.0, 0.0),
+    ]
+)
+def test_withdraw(account, amount, expected_balance):
+    account.withdraw(amount)
+    assert account.get_balance() == expected_balance
 
 
-def test_withdraw_all_money(account):
-    account.withdraw(1000.0)
-    assert account.get_balance() == 0.0
-
-
-def test_withdraw_zero(account):
+@pytest.mark.parametrize("invalid_amount", [0, -10, -50.0])
+def test_withdraw_invalid_amounts(account, invalid_amount):
     with pytest.raises(ValueError):
-        account.withdraw(0)
+        account.withdraw(invalid_amount)
+
+    assert account.get_balance() == 1000.0
 
 
-def test_withdraw_negative(account):
+@pytest.mark.parametrize("amount", [1001.0, 1500.0, 2000.0])
+def test_withdraw_insufficient_funds(account, amount):
     with pytest.raises(ValueError):
-        account.withdraw(-50.0)
+        account.withdraw(amount)
 
-
-def test_withdraw_insufficient_funds(account):
-    with pytest.raises(ValueError):
-        account.withdraw(1500.0)
+    assert account.get_balance() == 1000.0
 
 
 # 4. Átutalás tesztelése
 
-def test_transfer(account, second_account):
-    account.transfer(200.0, second_account)
+@pytest.mark.parametrize(
+    "amount, expected_sender, expected_receiver",
+    [
+        (100.0, 900.0, 600.0),
+        (200.0, 800.0, 700.0),
+        (500.0, 500.0, 1000.0),
+        (1000.0, 0.0, 1500.0),
+    ]
+)
+def test_transfer(
+    account,
+    second_account,
+    amount,
+    expected_sender,
+    expected_receiver
+):
+    account.transfer(amount, second_account)
 
-    assert account.get_balance() == 800.0
-    assert second_account.get_balance() == 700.0
+    assert account.get_balance() == expected_sender
+    assert second_account.get_balance() == expected_receiver
 
 
-def test_transfer_all_money(account, second_account):
-    account.transfer(1000.0, second_account)
-
-    assert account.get_balance() == 0.0
-    assert second_account.get_balance() == 1500.0
-
-
-def test_transfer_insufficient_funds(account, second_account):
+@pytest.mark.parametrize("amount", [1001.0, 1500.0, 2000.0])
+def test_transfer_insufficient_funds(account, second_account, amount):
     with pytest.raises(ValueError):
-        account.transfer(1500.0, second_account)
+        account.transfer(amount, second_account)
 
     assert account.get_balance() == 1000.0
     assert second_account.get_balance() == 500.0
@@ -106,9 +127,10 @@ def test_transfer_invalid_account(account):
     assert account.get_balance() == 1000.0
 
 
-def test_transfer_negative_amount(account, second_account):
+@pytest.mark.parametrize("invalid_amount", [0, -10, -100.0])
+def test_transfer_invalid_amount(account, second_account, invalid_amount):
     with pytest.raises(ValueError):
-        account.transfer(-100.0, second_account)
+        account.transfer(invalid_amount, second_account)
 
     assert account.get_balance() == 1000.0
     assert second_account.get_balance() == 500.0
