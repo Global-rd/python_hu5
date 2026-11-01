@@ -45,10 +45,16 @@ def view_tasks(tasks):
 
 def add_a_task(tasks, task): 
     tasks.append(task)
+    logger.info(f"Task added: {task}") #visszajelzes a sikeres hozzaadasrol
 
 
 def remove_a_task(tasks, task):
-    tasks.remove(task)
+    try: #hibakezeles, ha a feladat nincs a listaban
+        tasks.remove(task)
+        logger.info(f"Task removed: {task}") #csak akkor fut le, ha a torles sikeres volt
+    except ValueError: #a remove ValueError-t dob, ha nem talalja az elemet
+        logger.warning(f"Task not found: {task}")
+    
 #menu kiirasa
 def display_menu():
     print("1: Add Task")
