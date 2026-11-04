@@ -10,6 +10,13 @@ class TooMuchFuelError(Exception):
     """
     pass
 
+class NegativeValueError(Exception):
+    """
+    Custom exception arra az esetre ha negativ szamot ad meg a felhasznalo 
+    """
+    pass
+
+
 class Car:
     def __init__(self, brand: str, model, year: int, mileage =0, fuel_level=100):
           self.brand = brand
@@ -18,12 +25,16 @@ class Car:
           self.mileage = mileage
           self.fuel_level = fuel_level
     def drive(self, km):
-         #eloszor ellenorizni, mert ha utana, akkor mar levonta az uzemanyagot
+         if km < 0:
+             raise NegativeValueError("Mileage cannot be negative!")
          if km*0.1 > self.fuel_level:  
             raise InsufficientFuelError ("Not enough fuel!")
+         
          self.mileage += km
          self.fuel_level -=km*0.1
     def refuel (self, refuel_amount):
+        if refuel_amount < 0:
+            raise NegativeValueError("Refuel cannot be negative!")
         # tank + amit hozzaadok, nem lehet tobb, mint 100 
         if self.fuel_level + refuel_amount > 100:
             raise TooMuchFuelError ("Too much fuel!")
@@ -39,6 +50,9 @@ class Fleet:
         self.cars.append(car)
         #itt nem kell loop, a remove a memoria cim alkapjan talalja meg ugyanazt az objektumot 
     def remove_car(self, car:Car):
+        if car not in self.cars:
+            print ("This car is not in the fleet!")
+            return 
         self.cars.remove(car)
     def total_mileage(self):
         total = 0 #normal variable, nem self.total, mert csak addig kell amig a method fut 
