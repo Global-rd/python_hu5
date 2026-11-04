@@ -36,6 +36,7 @@ cond = [
     top50_price_df["price_change_percentage_24h"] < 0,
     top50_price_df["price_change_percentage_24h"] == 0,
 ]
+
 change = ["+", "-", "0"] #the list of the characters on same sorted as the conditions
 top50_price_df["change_direction"] = np.select(cond, change, default="0") #make the column with numpy
 print("->24H change of Top 50 currency:")
