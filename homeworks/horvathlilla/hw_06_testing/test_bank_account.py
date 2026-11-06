@@ -10,6 +10,7 @@ def account():
     return BankAccount("Test User", 100)
 
 def test_initial_balance():
+    account = BankAccount("Test User", 100)
     assert account.balance == 100
 
 def test_deposit():
@@ -37,7 +38,7 @@ def test_withdraw_insufficient_funds():
     with pytest.raises(ValueError):
         account.withdraw(150)
 
-pytest.mark.parametrize("initial_balance, deposit_amount, expected_balance", 
+@pytest.mark.parametrize("initial_balance, deposit_amount, expected_balance", 
                         [
                             (100, 50, 150),
                             (100, 0, 100),
