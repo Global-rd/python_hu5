@@ -9,41 +9,37 @@ def empty_account():
 def account():
     return BankAccount("Test User", 100)
 
-def test_initial_balance():
-    account = BankAccount("Test User", 100)
+def test_initial_balance(account):
     assert account.balance == 100
 
-def test_deposit():
-    account = BankAccount("Test User", 100)
+def test_deposit(account):
     account.deposit(100)
     assert account.balance == 200
 
-def test_non_positive_deposit():
-    account = BankAccount("Test User", 100)
+def test_non_positive_deposit(account):
     with pytest.raises(ValueError):
         account.deposit(-50)
 
-def test_non_positive_withdraw():
-    account = BankAccount("Test User", 100)
+def test_non_positive_withdraw(account):
     with pytest.raises(ValueError):
         account.withdraw(-50)
 
-def test_withdraw():
-    account = BankAccount("Test User", 100)
+def test_withdraw(account):
     account.withdraw(50)
     assert account.balance == 50
 
-def test_withdraw_insufficient_funds():
-    account = BankAccount("Test User", 100)
+def test_withdraw_insufficient_funds(account):
     with pytest.raises(ValueError):
         account.withdraw(150)
 
 @pytest.mark.parametrize("initial_balance, deposit_amount, expected_balance", 
-                        [
-                            (100, 50, 150),
-                            (100, 0, 100),
-                            (0, -50, 0)
-                        ])
+        [
+            (100, 50, 150),
+            (0, 100, 100)
+        ])
+            
+
+
 def test_deposit_parametrized(initial_balance, deposit_amount, expected_balance):
     account = BankAccount("Test User", initial_balance)
     account.deposit(deposit_amount)
