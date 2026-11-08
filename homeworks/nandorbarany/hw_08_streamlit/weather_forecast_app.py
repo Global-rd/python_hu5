@@ -6,6 +6,29 @@ import plotly.express as px
 import streamlit as st
 from streamlit_weather_db_connect import SqliteDB
 
+st.set_page_config(
+    page_title="Weather Dashboard",
+    page_icon=":partly_sunny:",
+    layout="wide"
+)
+
+with st.container(border=True):
+    st.subheader("Hourly Temperature Forecast (Next 5 Days)")
+    fig_forecast = px.line(
+        hourly_df,
+        x=hourly_df.index,
+        y="Temperature (°C)",
+        markers=True
+    )
+    fig_forecast.update_layout(
+        margin=dict(l=10, r=10, t=10, b=10),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis_title=None,
+        yaxis_title="Temperature (°C)"
+    )
+    fig_forecast.update_traces(line_color="#00B4D8", line_width=3)
+    st.plotly_chart(fig_forecast, use_container_width=True)
 
 GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
