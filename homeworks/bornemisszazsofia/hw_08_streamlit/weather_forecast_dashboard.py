@@ -22,7 +22,7 @@ st.markdown(
         }
 
         .stVerticalBlock {
-            gap: 0.8rem;
+            gap: 1rem;
         }
     </style>
     """,
