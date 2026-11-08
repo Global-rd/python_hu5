@@ -164,6 +164,18 @@ def main():
                 fig_forecast.update_traces(line_color="#00B4D8", line_width=3)
                 st.plotly_chart(fig_forecast, use_container_width=True)
 
+        daily_df = hourly_df.resample("D").agg(["min", "max"])
+        daily_df.columns = ["Min (°C)", "Max (°C)"]
+
+        fig_daily = px.bar(
+        daily_df,
+        x=daily_df.index,
+        y=["Min (°C)", "Max (°C)"],
+        barmode="group",
+        color_discrete_sequence=["#48CAE4", "#F77F00"]
+        )
+        st.plotly_chart(fig_daily, use_container_width=True)
+
 
 if __name__ == "__main__":
     main()
