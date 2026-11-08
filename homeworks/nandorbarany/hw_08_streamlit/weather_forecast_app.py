@@ -6,29 +6,12 @@ import plotly.express as px
 import streamlit as st
 from streamlit_weather_db_connect import SqliteDB
 
+
 st.set_page_config(
     page_title="Weather Dashboard",
     page_icon=":partly_sunny:",
     layout="wide"
 )
-
-with st.container(border=True):
-    st.subheader("Hourly Temperature Forecast (Next 5 Days)")
-    fig_forecast = px.line(
-        hourly_df,
-        x=hourly_df.index,
-        y="Temperature (°C)",
-        markers=True
-    )
-    fig_forecast.update_layout(
-        margin=dict(l=10, r=10, t=10, b=10),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        xaxis_title=None,
-        yaxis_title="Temperature (°C)"
-    )
-    fig_forecast.update_traces(line_color="#00B4D8", line_width=3)
-    st.plotly_chart(fig_forecast, use_container_width=True)
 
 GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
@@ -135,42 +118,52 @@ def main():
         kpi_temp, kpi_humidity, kpi_wind = st.columns(3)
 
         with kpi_temp:
-            st.metric(
-                label="Temperature (°C)",
-                value=f"{temperature}°C"
-            )
+            with st.container(border=True):
+                st.metric(
+                    label="Temperature (°C)",
+                    value=f"{temperature}°C"
+                )
 
         with kpi_humidity:
-            st.metric(
-                label="Humidity (%)",
-                value=f"{humidity}%"
-            )
+            with st.container(border=True):
+                st.metric(
+                    label="Humidity (%)",
+                    value=f"{humidity}%"
+                )
 
         with kpi_wind:
-            st.metric(
-                label="Wind Speed (km/h)",
-                value=f"{wind_speed} km/h"
-            )
+            with st.container(border=True):
+                st.metric(
+                    label="Wind Speed (km/h)",
+                    value=f"{wind_speed} km/h"
+                )
 
-        st.subheader("Weather Map")
-        map_df = pd.DataFrame([{"lat": lat, "lon": lon}])
-        st.map(map_df)
+        with st.container(border=True):
+            st.subheader("Weather Map")
+            map_df = pd.DataFrame([{"lat": lat, "lon": lon}])
+            st.map(map_df)
 
         hourly_df = show_hourly_data(weather_data)
 
         if hourly_df is not None:
-            st.subheader("Hourly Temperature Forecast (Next 5 Days)")
+            with st.container(border=True):
+                st.subheader("Hourly Temperature Forecast (Next 5 Days)")
+                fig_forecast = px.line(
+                    hourly_df,
+                    x=hourly_df.index,
+                    y="Temperature (°C)",
+                    markers=True
+                )
+                fig_forecast.update_layout(
+                    margin=dict(l=10, r=10, t=10, b=10),
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    xaxis_title=None,
+                    yaxis_title="Temperature (°C)"
+                )
+                fig_forecast.update_traces(line_color="#00B4D8", line_width=3)
+                st.plotly_chart(fig_forecast, use_container_width=True)
 
-            fig_forecast = px.line(
-                hourly_df,
-                x=hourly_df.index,
-                y="Temperature (°C)"
-            )
-            fig_forecast.update_layout(
-                xaxis_title="",
-                yaxis_title=""
-            )
-            st.plotly_chart(fig_forecast)
 
 if __name__ == "__main__":
     main()
