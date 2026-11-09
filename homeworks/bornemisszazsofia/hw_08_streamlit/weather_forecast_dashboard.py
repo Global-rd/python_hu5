@@ -126,20 +126,37 @@ if weather_current_wind_speed is None:
 if missing_weather_data:
     st.error(f"No {missing_weather_data} data found for {selected_city}.")
 
-st.header("Weather map")
+#Map chart:
 current_weather_df = pd.DataFrame([{"latitude": geocoding_response_latitude, "longitude": geocoding_response_longitude}])
-col1, col2, col3 = st.columns([3,2,2])
+col1, col2 = st.columns([2,3])
 with col1:
+    st.header("Location Map")
     weather_map_chart = st.map(current_weather_df,
                                latitude= current_weather_df["latitude"],
                                longitude= current_weather_df["longitude"],
                                width="stretch",
                                height=400,
-                               zoom=5,
+                               zoom=4,
                                color= "#FFFF00",
-                               size=500,
+                               size=None,
                                )
 
+#Line chart for forecast:
+with col2:
+    st.header("Hourly Temperature Forecast (next 5 days, in °C)")
+    weather_forecast_chart = px.line(weather_forecast_temperature_df,
+                                     x="time",
+                                     y="temperature_2m",
+                                    )
+    weather_forecast_chart.update_layout(yaxis_title="",
+                                         yaxis_range= [-5, 35],
+                                         yaxis_dtick= 5,
+                                         xaxis_title="",
+                                         xaxis_dtick=21600000,
+                                         height=400,
+                                        )
+    weather_forecast_chart.update_traces(line_color="#FFFF00")
+    st.plotly_chart(weather_forecast_chart)
 
 
 
