@@ -98,6 +98,7 @@ weather_forecast_temperature_df = pd.DataFrame(weather_forecast_response["hourly
 weather_forecast_temperature_df["time"] = pd.to_datetime(weather_forecast_temperature_df["time"])
 #print(weather_forecast_temperature_df.dtypes)
 
+
 #Weather dashboard:
 selected_city_subheader.subheader(f"{selected_city["name"]}, {selected_city["admin1"]}, {selected_city["country"]}")
 
@@ -137,7 +138,7 @@ with col1:
                                width="stretch",
                                height=400,
                                zoom=4,
-                               color= "#FFFF00",
+                               color= "#00FF0D",
                                size=None,
                                )
 
@@ -152,12 +153,16 @@ with col2:
                                          yaxis_range= [-5, 35],
                                          yaxis_dtick= 5,
                                          xaxis_title="",
-                                         xaxis_dtick=21600000,
+                                         xaxis_dtick=14400000,
+                                         xaxis_tickformat="%d.%m %H:%M",
+                                         xaxis_tickangle=-90,
                                          height=400,
                                         )
-    weather_forecast_chart.update_traces(line_color="#FFFF00")
+    weather_forecast_chart.update_traces(line_color="#00FF0D")
     st.plotly_chart(weather_forecast_chart)
 
+#weather_forecast_temperature_max_id = weather_forecast_temperature_df["temperature_2m"].idxmax()
+#weather_forecast_temperature_min_id = weather_forecast_temperature_df["temperature_2m"].idxmin()
 
 
 
