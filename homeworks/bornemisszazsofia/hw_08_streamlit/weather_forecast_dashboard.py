@@ -33,7 +33,7 @@ selected_city_subheader = st.empty()
 
 
 #Geocoding API GET request:
-col1, col2 = st.columns([1,3])
+col1, col2, col3 = st.columns([1,3,2])
 with col1:
     city_input = st.text_input("Please enter a city name.", "Zurich")
 
@@ -99,9 +99,46 @@ weather_forecast_temperature_df["time"] = pd.to_datetime(weather_forecast_temper
 #print(weather_forecast_temperature_df.dtypes)
 
 #Weather dashboard:
-
 selected_city_subheader.subheader(f"{selected_city["name"]}, {selected_city["admin1"]}, {selected_city["country"]}")
 
+kpi_current_temperature, kpi_current_humidity, kpi_current_wind_speed, col4 = st.columns([1,1,1,3])
+
+if weather_current_temperature is not None and weather_current_humidity is not None and weather_current_wind_speed is not None:
+    with kpi_current_temperature:
+        st.metric(label="Temperature",
+                  value=f"{weather_current_temperature} {weather_forecast_response["current_units"]["temperature_2m"]}"
+                  )
+    with kpi_current_humidity:
+        st.metric(label="Humidity",
+                  value=f"{weather_current_humidity} {weather_forecast_response["current_units"]["relative_humidity_2m"]}"
+                  )
+    with kpi_current_wind_speed:
+        st.metric(label="Wind Speed",
+                  value=f"{weather_current_wind_speed} {weather_forecast_response["current_units"]["wind_speed_10m"]}"
+                )  
+missing_weather_data = []
+if weather_current_temperature is None:
+    missing_weather_data.append("Temperature")
+if weather_current_humidity is None:
+    missing_weather_data.append("Humidity")
+if weather_current_wind_speed is None:
+    missing_weather_data.append("Wind speed")              
+if missing_weather_data:
+    st.error(f"No {missing_weather_data} data found for {selected_city}.")
+
+st.header("Weather map")
+current_weather_df = pd.DataFrame([{"latitude": geocoding_response_latitude, "longitude": geocoding_response_longitude}])
+col1, col2, col3 = st.columns([3,2,2])
+with col1:
+    weather_map_chart = st.map(current_weather_df,
+                               latitude= current_weather_df["latitude"],
+                               longitude= current_weather_df["longitude"],
+                               width="stretch",
+                               height=400,
+                               zoom=5,
+                               color= "#FFFF00",
+                               size=500,
+                               )
 
 
 
