@@ -3,6 +3,9 @@ import plotly.express as px
 import pandas as pd
 import datetime
 import requests
+import sqlite3
+from pathlib import Path
+
 
 #Basic dashboard layout config:
 st.set_page_config(layout="wide")
@@ -30,7 +33,7 @@ st.markdown(
 )
 st.title("Current Weather and Forecast")
 selected_city_subheader = st.empty()
-
+search_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 #Geocoding API GET request:
 col1, col2, col3 = st.columns([1,3,2])
@@ -64,7 +67,8 @@ else:
         elif len(city_options) == 1:
             selected_city = city_options[0]
         else:
-            selected_city = city_options[0]
+            st.error(f"No results for {city_input}. Please review your input.")
+            st.stop()
         
         geocoding_response_latitude = selected_city["latitude"]
         geocoding_response_longitude = selected_city["longitude"]
@@ -72,6 +76,7 @@ else:
     else:
         st.error(f"No results for {city_input}. Please review your input.")
         st.stop()
+
 
 #Weather API GET request:
 weather_forecast_url = "https://api.open-meteo.com/v1/forecast"
@@ -133,8 +138,8 @@ col1, col2 = st.columns([2,3])
 with col1:
     st.header("Location Map")
     weather_map_chart = st.map(current_weather_df,
-                               latitude= current_weather_df["latitude"],
-                               longitude= current_weather_df["longitude"],
+                               latitude= "latitude",
+                               longitude= "longitude",
                                width="stretch",
                                height=400,
                                zoom=4,
@@ -161,9 +166,71 @@ with col2:
     weather_forecast_chart.update_traces(line_color="#00FF0D")
     st.plotly_chart(weather_forecast_chart)
 
-#weather_forecast_temperature_max_id = weather_forecast_temperature_df["temperature_2m"].idxmax()
-#weather_forecast_temperature_min_id = weather_forecast_temperature_df["temperature_2m"].idxmin()
+#Records for searches:
+record = {"search_time":search_time, 
+          "city": selected_city["name"],
+          "temperature": weather_current_temperature,
+          "humidity": weather_current_humidity,
+          "wind_speed": weather_current_wind_speed
+          }
 
+db_path = Path(__file__).parent / "weather_records.db"
+
+class WeatherSearchRecords:
+
+    def __init__(self, db_name):
+        self.db_name = db_name
+        self.conn = None
+
+    def __enter__(self):
+        try:
+            self.conn = sqlite3.connect(self.db_name)
+            return self
+        except Exception as open_error:
+            raise RuntimeError(f"Failed to open database {self.db_name}") from open_error
+
+    def __exit__(self, *args):
+        if self.conn:
+            try:
+                self.conn.close()
+            except Exception as close_error:
+                print(f"Error: failed to close connection to {self.db_name}: {close_error}")
+
+    def create_table(self):
+        self.conn.execute("""CREATE TABLE IF NOT EXISTS weather_searches
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            search_time TEXT,
+                            city TEXT, 
+                            temperature REAL,
+                            humidity REAL,
+                            wind_speed REAL
+                            )
+                        """)
+    
+    def write_single_record(self, record):
+       
+        query = """INSERT INTO weather_searches 
+        (search_time, city, temperature, humidity, wind_speed) 
+        VALUES (?, ?, ?, ?, ?)"""
+        with self.conn:
+            self.conn.execute(query, tuple(record.values()))
+
+    def select_records(self, query):
+        weather_records_df = pd.read_sql(query, self.conn)
+        return weather_records_df
+
+
+with WeatherSearchRecords("weather_records.db") as db:
+    db.create_table()
+
+    if "last_search" not in st.session_state:
+        st.session_state.last_search = None
+
+    if st.session_state.last_search != selected_city["id"]:
+        db.write_single_record(record)
+        st.session_state.last_search = selected_city["id"]
+
+    
 
 
 
