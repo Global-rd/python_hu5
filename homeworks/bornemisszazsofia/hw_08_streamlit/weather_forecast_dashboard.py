@@ -35,6 +35,7 @@ st.title("Current Weather and Forecast")
 selected_city_subheader = st.empty()
 search_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+
 #Geocoding API GET request:
 col1, col2, col3 = st.columns([1,3,2])
 with col1:
@@ -48,31 +49,34 @@ geocoding_parameters = {"name": city_input,
 if city_input == "":
     st.stop()
 else:
-    geocoding_response = requests.get(url=geocoding_url, params=geocoding_parameters).json()
-    #print(geocoding_response)
+    try:
+        geocoding_request = requests.get(url=geocoding_url, params=geocoding_parameters, timeout=10)
+        if geocoding_request.status_code != 200:
+            st.error(f"API request failed. Error code: {geocoding_request.status_code}")
+            st.stop()
+        geocoding_response = geocoding_request.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Request failed: {e}")
+        st.stop()
 
     city_options = []
     if "results" in geocoding_response:
         for city in geocoding_response["results"]:
-            #print(f"{city["name"]}, {city["feature_code"]}")
             if city["feature_code"].startswith("PPL") and city["feature_code"] not in ("PPLX", "PPLH", "PPLQ") and city["name"].lower() == city_input.lower():
                 city_options.append(city)
-        #print((city_options))
         if len(city_options) > 1:
             with col2:
                 selected_city = st.selectbox("Select a city:", 
                                         options=city_options,
-                                        format_func=lambda city: f"{city["name"]}, {city["admin1"]}, {city["country"]}"
+                                        format_func=lambda city: f"{city["name"]}, {city.get('admin1', ' ')}, {city.get('country', ' ')}"
                                         )
         elif len(city_options) == 1:
             selected_city = city_options[0]
         else:
-            st.error(f"No results for {city_input}. Please review your input.")
+            st.error(f"No matching city found for {city_input}.")
             st.stop()
-        
         geocoding_response_latitude = selected_city["latitude"]
         geocoding_response_longitude = selected_city["longitude"]
-        #print(f"latitude: {geocoding_response_latitude}, longitude: {geocoding_response_longitude}")
     else:
         st.error(f"No results for {city_input}. Please review your input.")
         st.stop()
@@ -87,40 +91,42 @@ weather_forecast_parameters = {"latitude": geocoding_response_latitude,
                                "hourly": "temperature_2m",
                                "timezone": "auto",
                                 }
-weather_forecast_response = requests.get(url=weather_forecast_url, params=weather_forecast_parameters).json()
-#print(weather_forecast_response)
+try:
+    weather_forecast_request = requests.get(url=weather_forecast_url, params=weather_forecast_parameters, timeout=10)
+    if weather_forecast_request.status_code != 200:
+        st.error(f"API request failed. Error code: {weather_forecast_request.status_code}")
+        st.stop()    
+    weather_forecast_response = weather_forecast_request.json()
+except requests.exceptions.RequestException as e:
+    st.error(f"Request failed: {e}")
+    st.stop()
 
+#Current weather data:
 weather_current_temperature = weather_forecast_response["current"]["temperature_2m"]
 weather_current_humidity = weather_forecast_response["current"]["relative_humidity_2m"]
 weather_current_wind_speed = weather_forecast_response["current"]["wind_speed_10m"]
-print(f"Current temperature: {weather_current_temperature} {weather_forecast_response["current_units"]["temperature_2m"]}")
-print(f"Current humidity: {weather_current_humidity} {weather_forecast_response["current_units"]["relative_humidity_2m"]}")
-print(f"Current wind speed: {weather_current_wind_speed} {weather_forecast_response["current_units"]["wind_speed_10m"]}")
 
 #Weather forecast data into df:
 weather_forecast_temperature_df = pd.DataFrame(weather_forecast_response["hourly"], columns= ["time", "temperature_2m"])
-#print(weather_forecast_temperature_df)
 weather_forecast_temperature_df["time"] = pd.to_datetime(weather_forecast_temperature_df["time"])
-#print(weather_forecast_temperature_df.dtypes)
 
 
 #Weather dashboard:
-selected_city_subheader.subheader(f"{selected_city["name"]}, {selected_city["admin1"]}, {selected_city["country"]}")
-
+selected_city_subheader.subheader(f"{selected_city["name"]}, {selected_city.get("admin1", ' ')}, {selected_city.get("country", ' ')}")
 kpi_current_temperature, kpi_current_humidity, kpi_current_wind_speed, col4 = st.columns([1,1,1,3])
 
 if weather_current_temperature is not None and weather_current_humidity is not None and weather_current_wind_speed is not None:
     with kpi_current_temperature:
         st.metric(label="Temperature",
-                  value=f"{weather_current_temperature} {weather_forecast_response["current_units"]["temperature_2m"]}"
-                  )
+                value=f"{weather_current_temperature} {weather_forecast_response["current_units"]["temperature_2m"]}"
+                )
     with kpi_current_humidity:
         st.metric(label="Humidity",
-                  value=f"{weather_current_humidity} {weather_forecast_response["current_units"]["relative_humidity_2m"]}"
-                  )
+                value=f"{weather_current_humidity} {weather_forecast_response["current_units"]["relative_humidity_2m"]}"
+                )
     with kpi_current_wind_speed:
         st.metric(label="Wind Speed",
-                  value=f"{weather_current_wind_speed} {weather_forecast_response["current_units"]["wind_speed_10m"]}"
+                value=f"{weather_current_wind_speed} {weather_forecast_response["current_units"]["wind_speed_10m"]}"
                 )  
 missing_weather_data = []
 if weather_current_temperature is None:
@@ -132,39 +138,44 @@ if weather_current_wind_speed is None:
 if missing_weather_data:
     st.error(f"No {missing_weather_data} data found for {selected_city}.")
 
+
 #Map chart:
 current_weather_df = pd.DataFrame([{"latitude": geocoding_response_latitude, "longitude": geocoding_response_longitude}])
 col1, col2 = st.columns([2,3])
 with col1:
     st.header("Location Map")
     weather_map_chart = st.map(current_weather_df,
-                               latitude= "latitude",
-                               longitude= "longitude",
-                               width="stretch",
-                               height=400,
-                               zoom=4,
-                               color= "#00FF0D",
-                               size=None,
-                               )
+                            latitude= "latitude",
+                            longitude= "longitude",
+                            width="stretch",
+                            height=400,
+                            zoom=4,
+                            color= "#00FF0D",
+                            size=None,
+                            )
 
 #Line chart for forecast:
+y_min = (weather_forecast_temperature_df["temperature_2m"].min() // 5) * 5 - 5
+y_max = (weather_forecast_temperature_df["temperature_2m"].max() // 5) * 5 + 10
 with col2:
     st.header("Hourly Temperature Forecast (next 5 days, in °C)")
     weather_forecast_chart = px.line(weather_forecast_temperature_df,
-                                     x="time",
-                                     y="temperature_2m",
+                                    x="time",
+                                    y="temperature_2m",
                                     )
+    
     weather_forecast_chart.update_layout(yaxis_title="",
-                                         yaxis_range= [-5, 35],
-                                         yaxis_dtick= 5,
-                                         xaxis_title="",
-                                         xaxis_dtick=14400000,
-                                         xaxis_tickformat="%d.%m %H:%M",
-                                         xaxis_tickangle=-90,
-                                         height=400,
+                                        yaxis_range=[y_min, y_max],
+                                        yaxis_dtick= 5,
+                                        xaxis_title="",
+                                        xaxis_dtick=14400000,
+                                        xaxis_tickformat="%d.%m %H:%M",
+                                        xaxis_tickangle=-90,
+                                        height=400,
                                         )
     weather_forecast_chart.update_traces(line_color="#00FF0D")
     st.plotly_chart(weather_forecast_chart)
+
 
 #Records for searches:
 record = {"search_time":search_time, 
@@ -173,10 +184,10 @@ record = {"search_time":search_time,
           "humidity": weather_current_humidity,
           "wind_speed": weather_current_wind_speed
           }
-
 db_path = Path(__file__).parent / "weather_records.db"
 
 class WeatherSearchRecords:
+
 
     def __init__(self, db_name):
         self.db_name = db_name
@@ -219,8 +230,7 @@ class WeatherSearchRecords:
         weather_records_df = pd.read_sql(query, self.conn)
         return weather_records_df
 
-
-with WeatherSearchRecords("weather_records.db") as db:
+with WeatherSearchRecords(db_path) as db:
     db.create_table()
 
     if "last_search" not in st.session_state:
@@ -229,6 +239,9 @@ with WeatherSearchRecords("weather_records.db") as db:
     if st.session_state.last_search != selected_city["id"]:
         db.write_single_record(record)
         st.session_state.last_search = selected_city["id"]
+    
+    weather_records_df_result = db.select_records("SELECT * FROM weather_searches")
+    print(weather_records_df_result)
 
     
 
