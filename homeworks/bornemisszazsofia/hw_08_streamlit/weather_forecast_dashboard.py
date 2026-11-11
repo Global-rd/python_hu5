@@ -62,7 +62,7 @@ else:
     city_options = []
     if "results" in geocoding_response:
         for city in geocoding_response["results"]:
-            if city["feature_code"].startswith("PPL") and city["feature_code"] not in ("PPLX", "PPLH", "PPLQ") and city["name"].lower() == city_input.lower():
+            if city["feature_code"].startswith("PPL") and city["feature_code"] not in ("PPLX", "PPLH", "PPLQ"):
                 city_options.append(city)
         if len(city_options) > 1:
             with col2:
