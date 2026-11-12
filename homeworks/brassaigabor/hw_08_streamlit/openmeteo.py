@@ -89,14 +89,21 @@ def show_map(location):
         margin=dict(l=0, r=0, t=0, b=0),
     )
 
-    st.plotly_chart(fig_map, use_container_width=True)
+    st.plotly_chart(fig_map,
+                    config = {
+                        "editable": False,
+                        "displayModeBar": False,
+                        "staticPlot": True
+                    },
+                    use_container_width=True
+                    )
 
 #---------- draw chart ----------------------------
 
 def draw_chart(location, weather_data):
         
         variables = {
-            "temperature_2m": "Temperature",
+            "temperature_2m": "Temp",
             "relative_humidity_2m": "Humidity",
             "wind_speed_10m": "Wind"
             }
@@ -123,7 +130,7 @@ def draw_chart(location, weather_data):
                         labels={column: f"{name} ({hourly_unit})", "time":"Time"},
                         height=150
                         )
-            fig.update_layout(hovermode="x unified", dragmode=False, margin=dict(b=1, l=80, r=80, t=25))
+            fig.update_layout(hovermode="x unified", dragmode=False, margin=dict(b=1, t=50))
             st.plotly_chart(
                 fig, 
                 config = {
@@ -135,8 +142,9 @@ def draw_chart(location, weather_data):
 
 # ------------------- main -----------------------
 def main():
+    st.set_page_config(initial_sidebar_state="expanded")
 
-    #--- cut the space after, before
+        #--- cut the space after, before
     st.markdown(
         """
         <style>
@@ -160,7 +168,6 @@ def main():
     )
 
     # sidebar (header, edit field, button)
-    st.set_page_config(initial_sidebar_state="expanded")
     st.sidebar.header("Weather forecast configuration")
     with st.sidebar.form("city_form"):
             city = st.text_input("City", "Budapest")
@@ -192,6 +199,21 @@ def main():
                                             "wind_speed": weather_data["current"]["wind_speed_10m"],
                                             "datetime": datetime.now()
                                             })
+    elif "weather_data" not in st.session_state:
+        # Automatikus induló lekérdezés
+        location = get_location_by_city_name("Budapest")
+
+        if location is not None:
+            weather_data = get_data_from_openmeteo(
+                location["latitude"],
+                location["longitude"]
+            )
+
+            if weather_data is not None:
+                st.session_state.city = "Budapest"
+                st.session_state.location = location
+                st.session_state.weather_data = weather_data
+    
     # session visszatoltes
     if "weather_data" in st.session_state:
         city = st.session_state.city
