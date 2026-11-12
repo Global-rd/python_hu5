@@ -123,7 +123,7 @@ def draw_chart(location, weather_data):
                         labels={column: f"{name} ({hourly_unit})", "time":"Time"}
                         )
 
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, config={"staticPlot": True}, use_container_width=True)
 
 # ------------------- main -----------------------
 def main():
