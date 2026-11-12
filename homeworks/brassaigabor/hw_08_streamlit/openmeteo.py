@@ -153,7 +153,7 @@ def main():
     )
 
     # sidebar (header, edit field, button)
-    st.sidebar.header("Configuration")
+    st.sidebar.header("Weather forecast configuration")
     with st.sidebar.form("stock_form"):
             city = st.text_input("City", "Budapest")
             submitted = st.form_submit_button("Submit")
