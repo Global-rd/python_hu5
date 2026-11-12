@@ -80,7 +80,7 @@ def show_map(location):
         lon="lon",
         hover_name="city",
         center={"lat": lat, "lon": lon},
-        zoom=9,
+        zoom=11,
         height=350,
     )
     fig_map.update_traces(marker=dict(size=14))
@@ -120,14 +120,21 @@ def draw_chart(location, weather_data):
                         x="time",
                         y=column,
                         title=f"{location['name']}, {location['country']} - {name }",
-                        labels={column: f"{name} ({hourly_unit})", "time":"Time"}
+                        labels={column: f"{name} ({hourly_unit})", "time":"Time"},
+                        height=150
                         )
-
-            st.plotly_chart(fig, config={"staticPlot": True}, use_container_width=True)
+            fig.update_layout(hovermode="x unified", dragmode=False, margin=dict(b=1, l=80, r=80, t=25))
+            st.plotly_chart(
+                fig, 
+                config = {
+                    "scrollZoom": False,
+                    "displayModeBar": False,
+                    "doubleClick": False
+                },
+                use_container_width=True)
 
 # ------------------- main -----------------------
 def main():
-
 
     #--- cut the space after, before
     st.markdown(
@@ -153,8 +160,9 @@ def main():
     )
 
     # sidebar (header, edit field, button)
+    st.set_page_config(initial_sidebar_state="expanded")
     st.sidebar.header("Weather forecast configuration")
-    with st.sidebar.form("stock_form"):
+    with st.sidebar.form("city_form"):
             city = st.text_input("City", "Budapest")
             submitted = st.form_submit_button("Submit")
 
