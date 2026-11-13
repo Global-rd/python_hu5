@@ -28,9 +28,3 @@ class BankAccount:
 
     def __str__(self):
         return f"Account owner: {self.owner}, Balance: {self.balance:.2f}"
-
-account_01 = BankAccount("deni", 1000.0)
-account_02 = BankAccount("peti", 2000.0)
-
-transfering = account_01.transfer(100,account_02)
-print(account_01)
