@@ -9,9 +9,10 @@ from pathlib import Path
 #--------------------------------------------------------------------------
 
 BASE_DIR = Path(__file__).parent.resolve()
-@st.cache_data(ttl=3600, show_spinner="Weather data downloading...")
 
 # -----------------get_data_from_openmeteo -------------------
+
+@st.cache_data(ttl=3600, show_spinner="Weather data downloading...")
 def get_data_from_openmeteo(lat, lon):
 
     url = "https://api.open-meteo.com/v1/forecast"
