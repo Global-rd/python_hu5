@@ -185,6 +185,23 @@ if location:
     st.write(f"Szélességi fok: {latitude:.4f}")
     st.write(f"Hosszúsági fok: {longitude:.4f}")
 
+
+    # A kiválasztott város megjelenítése térképen
+    st.subheader("🗺️ Időjárási térkép")
+
+    map_df = pd.DataFrame({
+        "lat": [latitude],
+        "lon": [longitude]
+    })
+
+    st.map(
+        map_df,
+        zoom=10,
+        size=500,
+        height=350
+    )
+
+
     # 8. Időjárásadatok lekérése
     weather = fetch_weather(latitude, longitude)
 
