@@ -85,7 +85,10 @@ def main():
 
                 if volume >= 1_000_000:
                     formatted_volume = f"${volume / 1_000_000:.1f}M"
-                #continue
+                elif volume >= 1_000:
+                    formatted_volume = f"${volume / 1_000:.1f}K"
+                else:
+                    formatted_volume = f"${volume:.0f}"
 
                 st.metric(
                     label="Volume",
