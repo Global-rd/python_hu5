@@ -3,6 +3,8 @@ import plotly.express as px
 import pandas as pd
 import requests
 
+
+
 def fetch_city(city_name):
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}&count=1&language=en&format=json"
     response = requests.get(url)
@@ -13,6 +15,8 @@ def fetch_city(city_name):
             return data["results"][0]
     return None
 
+
+@st.cache_data(ttl=1800, show_spinner="Fetching data...")
 def fetch_weather(lat, lon):
     url = ( 
         f"https://api.open-meteo.com/v1/forecast?"
