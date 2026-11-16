@@ -10,8 +10,8 @@ from pathlib import Path
 BASE_LOC_URL = 'https://geocoding-api.open-meteo.com/v1'
 BASE_FORECAST_URL='http://api.open-meteo.com/v1/forecast'
 
-# @st.cache_data(ttl=86400, show_spinner="Fetching location data ...") # cachelést csinálo dekorator, de nem műxik
-def fetch_location_data(city:str) -> json:
+@st.cache_data(ttl=86400, show_spinner="Fetching location data ...") # cachelést csinálo dekorator, de nem műxik
+def fetch_location_data(city:str) -> dict | None:
     print(f"Fetch data for {city}")
     
     url = f"{BASE_LOC_URL}/search?name={city}&count=1&language=en&format=json"
@@ -75,8 +75,6 @@ def main():
         )
         submitted = st.form_submit_button("Submit")
         print(city)
-
-    st.session_state.city = city
 
     if submitted:
         st.session_state.city = city
