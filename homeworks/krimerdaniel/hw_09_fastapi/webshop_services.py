@@ -74,15 +74,15 @@ def send_email_service(recipient: str, customer_name: str):
     email_sender = EmailSender(
         smtp_server="smtp.gmail.com",
         smtp_port=587,
-        sender_email=os.environ.get("GMAIL_EMAIL"),
-        sender_password=os.environ.get("GMAIL_PW")
+        sender_email=os.environ.get("EMAIL"),
+        sender_password=os.environ.get("EMAIL_PW")
     )
 
-    html_body = EmailSender.render_email_template(template_path="homeworks/danielkrimer/hw_09_fastapi/email_template.html",
-                                                  context={"user_name": customer_name})
+    html_body = EmailSender.render_email_template(template_path="email_template.html",
+                                                  context={"customer_name": customer_name})
 
-    email_sender.send_email(recipients=[recipient, "daniel.krimer@gmail.com"], #nigrushid@gmail.com
-                            subject="Confirm order on FastAPI Webshop",
+    email_sender.send_email(recipients=[recipient], #nigrushid@gmail.com
+                            subject="Confirmation of your order from FastAPI Webshop",
                             body=html_body,
                             attachments=[])
 

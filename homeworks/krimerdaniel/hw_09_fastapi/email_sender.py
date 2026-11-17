@@ -52,13 +52,26 @@ class EmailSender:
                     print(f"Failed to attach file {file_path}. Error: {e}")
 
         try:
-            with smtplib.SMTP(self._smtp_server, self._smtp_port) as server:
+            with smtplib.SMTP(self._smtp_server, self._smtp_port, timeout=20) as server:
+            
+                server.set_debuglevel(1)
+
+                server.ehlo()
                 server.starttls()
+                server.ehlo()
+
                 server.login(self._sender_email, self._sender_password)
-                server.sendmail(self._sender_email, recipients, msg.as_string())
+
+                server.sendmail(
+                    self._sender_email,
+                    recipients,
+                    msg.as_string()
+                )
+
                 print("Email sent successfully!")
+
         except Exception as e:
-            print(f"Failed to send email: {e}")
+            print(f"Failed to send email: {type(e).__name__}: {e}")
 
     @staticmethod
     def render_email_template(template_path: str, context: dict):

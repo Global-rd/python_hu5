@@ -39,5 +39,4 @@ class OrderResponse(OrderRequest):
 
     order_id: str
     order_time: datetime
-    item_name: str
     order_value: float
