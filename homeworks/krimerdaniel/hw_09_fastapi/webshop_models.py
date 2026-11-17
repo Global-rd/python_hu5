@@ -1,6 +1,6 @@
 from uuid import uuid1
 from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, select
-from sqlalchemy.orm import Mapped, mapped_column, column_property
+from sqlalchemy.orm import Mapped, mapped_column, column_property, relationship
 from datetime import datetime
 from webshop_db import Base
 
@@ -31,12 +31,7 @@ class Order(Base):
     order_id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid1()))
     order_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     customer_id: Mapped[str] = mapped_column(String, ForeignKey("customers.customer_id"), nullable=False)
-    #customer_name: Mapped[str] = mapped_column(String, ForeignKey("customers.customer_name"), nullable=False)
     item_id: Mapped[str] = mapped_column(String, ForeignKey("items.item_id"), nullable=False)
-    #item_name: Mapped[str] = mapped_column(String, ForeignKey("items.item_name"), nullable=False)
-    item_quantity: Mapped[int] = mapped_column(nullable=False)
-    order_value = column_property(
-        select(Stock.unit_price * item_quantity)
-        .where(Stock.item_id == item_id)
-        .scalar_subquery()
-    )
+    item_quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    order_value: Mapped[float] = mapped_column(Float, nullable=False)
+    customer: Mapped["Customer"] = relationship()

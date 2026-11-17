@@ -13,6 +13,10 @@ from webshop_crud import (
 )
 from webshop_models import Stock, Customer, Order
 from webshop_schemas import StockRequest, CustomerRequest, OrderRequest
+from email_sender import EmailSender
+import os
+from dotenv import load_dotenv
+from starlette.concurrency import run_in_threadpool
 
 async def list_items_service(db: AsyncSession) -> list[Stock]:
     return await get_all_items(db)
@@ -51,4 +55,36 @@ async def list_customers_service(db: AsyncSession) -> list[Customer]:
 
 
 async def place_order_service(item: OrderRequest, db: AsyncSession) -> Order:
-    return await create_order(item, db)
+    new_order = await create_order(item, db)
+
+    customer = await db.get(Customer, new_order.customer_id)
+    
+    await run_in_threadpool(
+            send_email_service,
+            recipient=customer.customer_email,
+            customer_name=customer.customer_name)
+
+    return new_order
+
+def send_email_service(recipient: str, customer_name: str):
+    load_dotenv()
+
+    #email sending:
+
+    email_sender = EmailSender(
+        smtp_server="smtp.gmail.com",
+        smtp_port=587,
+        sender_email=os.environ.get("GMAIL_EMAIL"),
+        sender_password=os.environ.get("GMAIL_PW")
+    )
+
+    html_body = EmailSender.render_email_template(template_path="homeworks/danielkrimer/hw_09_fastapi/email_template.html",
+                                                  context={"user_name": customer_name})
+
+    email_sender.send_email(recipients=[recipient, "daniel.krimer@gmail.com"], #nigrushid@gmail.com
+                            subject="Confirm order on FastAPI Webshop",
+                            body=html_body,
+                            attachments=[])
+
+
+

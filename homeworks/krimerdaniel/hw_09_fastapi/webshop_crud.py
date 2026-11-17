@@ -10,7 +10,7 @@ async def get_all_items(db: AsyncSession) -> list[Stock]:
     return items
 
 async def get_item_by_id(item_id: str, db:AsyncSession) -> Stock | None:
-    result = await db.execute(select(Stock).where(Stock.id == item_id))
+    result = await db.execute(select(Stock).where(Stock.item_id == item_id))
     item = result.scalar_one_or_none()
     return item
 
@@ -57,9 +57,21 @@ async def get_all_customers(db: AsyncSession) -> list[Customer]:
 
 
 async def create_order(item: OrderRequest, db: AsyncSession) -> Order:
-    new_order = Order(**item.model_dump())
+    
+    stock = await db.get(Stock, item.item_id)
+    
+    new_order = Order(**item.model_dump(),order_value=stock.unit_price * item.item_quantity)
     db.add(new_order)
     await db.commit()
     await db.refresh(new_order)
 
     return new_order
+
+
+#async def confirm_order(item: OrderRequest, db: AsyncSession) -> Order:
+#    new_order = Order(**item.model_dump())
+#    db.add(new_order)
+#    await db.commit()
+#    await db.refresh(new_order)
+#
+#    return new_order
