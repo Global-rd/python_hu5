@@ -1,5 +1,3 @@
 streamlit
 requests
 pandas
-python -m streamlit run homeworks/ipacsjanos/hw_08_streamlit/app.py
-python -m streamlit run app.py
