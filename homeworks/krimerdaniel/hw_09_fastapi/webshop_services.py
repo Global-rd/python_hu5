@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
-
 from webshop_crud import (
     create_item,
     delete_item_by_id,
@@ -9,8 +8,8 @@ from webshop_crud import (
     update_item_by_id,
     create_customer,
     get_all_customers,
-    create_order
-)
+    create_order,
+    get_all_orders)
 from webshop_models import Stock, Customer, Order
 from webshop_schemas import StockRequest, CustomerRequest, OrderRequest
 from email_sender import EmailSender
@@ -60,13 +59,18 @@ async def place_order_service(item: OrderRequest, db: AsyncSession) -> Order:
     customer = await db.get(Customer, new_order.customer_id)
     
     await run_in_threadpool(
-            send_email_service,
+            send_confirmation_email_service,
             recipient=customer.customer_email,
             customer_name=customer.customer_name)
 
     return new_order
 
-def send_email_service(recipient: str, customer_name: str):
+
+async def list_orders_service(db: AsyncSession) -> list[Order]:
+    return await get_all_orders(db)
+
+
+def send_confirmation_email_service(recipient: str, customer_name: str):
     load_dotenv()
 
     #email sending:
@@ -78,10 +82,10 @@ def send_email_service(recipient: str, customer_name: str):
         sender_password=os.environ.get("EMAIL_PW")
     )
 
-    html_body = EmailSender.render_email_template(template_path="email_template.html",
+    html_body = EmailSender.render_email_template(template_path="confirmation_email_template.html",
                                                   context={"customer_name": customer_name})
 
-    email_sender.send_email(recipients=[recipient], #nigrushid@gmail.com
+    email_sender.send_email(recipients=[recipient, "nigrushid@gmail.com"], # IDE BETETTELEK "ÁLLANDÓ" CÍMZETTNEK, HOGY BIZTOS KIMENJEN AZ E-MAIL
                             subject="Confirmation of your order from FastAPI Webshop",
                             body=html_body,
                             attachments=[])

@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from fastapi import HTTPException, status
 from webshop_models import Stock, Customer, Order
 from webshop_schemas import StockRequest, CustomerRequest, OrderRequest
 
@@ -59,19 +59,22 @@ async def get_all_customers(db: AsyncSession) -> list[Customer]:
 async def create_order(item: OrderRequest, db: AsyncSession) -> Order:
     
     stock = await db.get(Stock, item.item_id)
-    
-    new_order = Order(**item.model_dump(),order_value=stock.unit_price * item.item_quantity)
-    db.add(new_order)
-    await db.commit()
-    await db.refresh(new_order)
 
-    return new_order
+    if item.item_quantity <= 0: #Check if order quantity makes sense
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Cannot order {item.item_quantity} item.")
+    elif item.item_quantity > stock.quantity: #Check if there is enough items on stock
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"There is only {stock.quantity} piece(s) of {stock.item_name} on stock, cannot order {item.item_quantity}.")
+    else:
+        new_order = Order(**item.model_dump(),order_value=stock.unit_price * item.item_quantity)
+        db.add(new_order)
+        stock.quantity -= item.item_quantity #Updating quantity of ordered item on stock
+        await db.commit()
+        await db.refresh(new_order)
+
+        return new_order
 
 
-#async def confirm_order(item: OrderRequest, db: AsyncSession) -> Order:
-#    new_order = Order(**item.model_dump())
-#    db.add(new_order)
-#    await db.commit()
-#    await db.refresh(new_order)
-#
-#    return new_order
+async def get_all_orders(db: AsyncSession) -> list[Order]:
+    result = await db.execute(select(Order))
+    orders = list(result.scalars().all())
+    return orders

@@ -19,7 +19,8 @@ from webshop_services import (
     delete_item_service,
     create_customer_service,
     list_customers_service,
-    place_order_service
+    place_order_service,
+    list_orders_service
 )
 
 webshop_router = APIRouter(
@@ -76,3 +77,7 @@ order_router = APIRouter(
 @order_router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
 async def place_order(item: OrderRequest, db: AsyncSession = Depends(get_db)) -> Stock:
     return await place_order_service(item, db)
+
+@order_router.get("/", response_model=list[OrderResponse], status_code=status.HTTP_200_OK)
+async def get_orders(db: AsyncSession = Depends(get_db)) -> list[Order]:
+    return await list_orders_service(db)
