@@ -1,79 +1,147 @@
 
-from uuid import uuid1
+from contextlib import asynccontextmanager
 from typing import Optional
+from uuid import uuid1
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
-
-
-app = FastAPI(title="Webshop terméknyilvántartó")
+from fastapi import FastAPI, HTTPException, Depends
+from sqlmodel import SQLModel, Field, Session, create_engine, select
 
 
-# Termék adatmodellje
-class ProductCreate(BaseModel):
+# Adatbazis beallitasa
+DATABASE_URL = "sqlite:///./webshop.db"
+
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}
+)
+
+
+# Termek adatmodellje
+class ProductBase(SQLModel):
     item_name: str
     quantity: int = Field(ge=0)
     price: float = Field(ge=0)
     category: Optional[str] = None
 
 
-class Product(ProductCreate):
+class Product(ProductBase, table=True):
+    id: str = Field(default_factory=lambda: str(uuid1()), primary_key=True)
+
+
+class ProductCreate(ProductBase):
+    pass
+
+
+class ProductUpdate(ProductBase):
+    pass
+
+
+class ProductRead(ProductBase):
     id: str
 
 
-# Egyszerű, memóriában tárolt terméknyilvántartás
-products = {}
+# Adatbazis tabla letrehozasa
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
 
 
-# Összes termék lekérdezése
-@app.get("/products", response_model=list[Product])
-def get_products():
-    return list(products.values())
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
 
 
-# Egy termék lekérdezése azonosító alapján
-@app.get("/products/{product_id}", response_model=Product)
-def get_product(product_id: str):
-    if product_id not in products:
-        raise HTTPException(status_code=404, detail="Termék nem található")
-
-    return products[product_id]
+app = FastAPI(
+    title="Webshop termeknyilvantarto",
+    lifespan=lifespan
+)
 
 
-# Új termék létrehozása
-@app.post("/products", response_model=Product, status_code=201)
-def create_product(product: ProductCreate):
-    product_id = str(uuid1())
+# Adatbazis kapcsolat
+def get_session():
+    with Session(engine) as session:
+        yield session
 
-    new_product = Product(
-        id=product_id,
-        **product.model_dump()
-    )
 
-    products[product_id] = new_product
+# 1. Osszes termek listazasa
+@app.get("/products", response_model=list[ProductRead])
+def get_products(session: Session = Depends(get_session)):
+    products = session.exec(select(Product)).all()
+    return products
+
+
+# 2. Egy termek lekerdezese ID alapjan
+@app.get("/products/{product_id}", response_model=ProductRead)
+def get_product(
+    product_id: str,
+    session: Session = Depends(get_session)
+):
+    product = session.get(Product, product_id)
+
+    if not product:
+        raise HTTPException(
+            status_code=404,
+            detail="Termek nem talalhato"
+        )
+
+    return product
+
+
+# 3. Uj termek hozzaadasa
+@app.post("/products", response_model=ProductRead, status_code=201)
+def create_product(
+    product: ProductCreate,
+    session: Session = Depends(get_session)
+):
+    new_product = Product(**product.model_dump())
+
+    session.add(new_product)
+    session.commit()
+    session.refresh(new_product)
+
     return new_product
 
 
-# Termék adatainak módosítása
-@app.put("/products/{product_id}", response_model=Product)
-def update_product(product_id: str, product: ProductCreate):
-    if product_id not in products:
-        raise HTTPException(status_code=404, detail="Termék nem található")
+# 4. Termek adatainak frissitese
+@app.put("/products/{product_id}", response_model=ProductRead)
+def update_product(
+    product_id: str,
+    product_data: ProductUpdate,
+    session: Session = Depends(get_session)
+):
+    product = session.get(Product, product_id)
 
-    updated_product = Product(
-        id=product_id,
-        **product.model_dump()
-    )
+    if not product:
+        raise HTTPException(
+            status_code=404,
+            detail="Termek nem talalhato"
+        )
 
-    products[product_id] = updated_product
-    return updated_product
+    for key, value in product_data.model_dump().items():
+        setattr(product, key, value)
+
+    session.add(product)
+    session.commit()
+    session.refresh(product)
+
+    return product
 
 
-# Termék törlése
+# 5. Termek torlese
 @app.delete("/products/{product_id}")
-def delete_product(product_id: str):
-    if product_id not in products:
-        raise HTTPException(status_code=404, detail="Termék nem található")
+def delete_product(
+    product_id: str,
+    session: Session = Depends(get_session)
+):
+    product = session.get(Product, product_id)
 
-    del products[product_id]
-    return {"message": "Termék sikeresen törölve"}
+    if not product:
+        raise HTTPException(
+            status_code=404,
+            detail="Termek nem talalhato"
+        )
+
+    session.delete(product)
+    session.commit()
+
+    return {"message": "Termek sikeresen torolve"}
