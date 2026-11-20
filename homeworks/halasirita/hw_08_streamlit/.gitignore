@@ -1,0 +1,11 @@
+
+# Local SQLite database
+weather_history.db
+weather_history.db-journal
+weather_history.db-wal
+weather_history.db-shm
+
+# Python temporary files
+__pycache__/
+*.pyc
+.venv/
