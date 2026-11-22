@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HEGEDŰS | Administration</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+            <span class="brand-name">HEGEDŰS</span>
+            <span class="brand-subtitle">ADMINISTRATION</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/docs">API Documentation</a>
+        </nav>
+
+        <a href="/" class="outline-button">
+            View storefront
+        </a>
+
+    </header>
+
+
+    <main class="admin-container">
+
+        <div class="admin-heading">
+
+            <div>
+                <p class="eyebrow">MANAGEMENT SYSTEM</p>
+                <h1>Product Dashboard</h1>
+                <p class="muted">Manage your collectible inventory.</p>
+            </div>
+
+            <button id="add-product" class="gold-button">
+                + Add product
+            </button>
+
+        </div>
+
+
+        <!-- Dashboard statistics -->
+
+        <section class="dashboard-stats">
+
+            <div class="stat-card">
+                <p>Total products</p>
+                <h2 id="stat-total">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Active products</p>
+                <h2 id="stat-active">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Units in stock</p>
+                <h2 id="stat-stock">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Inventory value</p>
+                <h2 id="stat-value">0 Ft</h2>
+            </div>
+
+        </section>
+
+
+        <!-- Product inventory -->
+
+        <section class="admin-panel">
+
+            <div class="panel-heading">
+
+                <h2>Product inventory</h2>
+
+                <input
+                    type="search"
+                    id="admin-search"
+                    placeholder="Search products..."
+                >
+
+            </div>
+
+            <p id="admin-message" role="status"></p>
+
+            <div class="table-wrapper">
+
+                <table class="inventory-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="inventory-body">
+                        <tr>
+                            <td colspan="7">Loading products...</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Product editor -->
+
+    <dialog id="editor-modal" class="product-modal">
+
+        <button
+            id="close-editor"
+            class="close-button"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+
+        <h2 id="editor-title">Add product</h2>
+
+        <form id="product-form">
+
+            <input type="hidden" id="product-id">
+
+            <h3 class="form-heading">Basic information</h3>
+
+            <div class="form-grid">
+
+                <label>
+                    Product name *
+                    <input
+                        id="item_name"
+                        type="text"
+                        maxlength="200"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Category
+                    <input
+                        id="category"
+                        type="text"
+                        placeholder="Gaming, Anime, Fantasy..."
+                    >
+                </label>
+
+                <label class="full-width">
+                    Description
+                    <textarea
+                        id="description"
+                        rows="4"
+                    ></textarea>
+                </label>
+
+            </div>
+
+
+            <h3 class="form-heading">Physical specifications</h3>
+
+            <div class="form-grid">
+
+                <label>
+                    Scale
+                    <input id="scale" placeholder="1:6">
+                </label>
+
+                <label>
+                    Material *
+                    <input id="material" value="Resin" required>
+                </label>
+
+                <label>
+                    Height (cm)
+                    <input id="height_cm" type="number" min="0.01" step="any">
+                </label>
+
+                <label>
+                    Width (cm)
+                    <input id="width_cm" type="number" min="0.01" step="any">
+                </label>
+
+                <label>
+                    Depth (cm)
+                    <input id="depth_cm" type="number" min="0.01" step="any">
+                </label>
+
+                <label class="checkbox-label">
+                    <input id="painted" type="checkbox">
+                    Painted product
+                </label>
+
+            </div>
+
+
+            <h3 class="form-heading">Pricing and availability</h3>
+
+            <div class="form-grid">
+
+                <label>
+                    Price (HUF) *
+                    <input id="price" type="number" min="1" step="1" required>
+                </label>
+
+                <label>
+                    Stock quantity *
+                    <input id="quantity" type="number" min="0" value="0" required>
+                </label>
+
+                <label>
+                    Production time (days)
+                    <input id="production_days" type="number" min="0" value="7" required>
+                </label>
+
+                <label class="checkbox-label">
+                    <input id="made_to_order" type="checkbox" checked>
+                    Made to order
+                </label>
+
+            </div>
+
+
+            <h3 class="form-heading">Media and visibility</h3>
+
+            <div class="form-grid">
+
+                <label class="full-width">
+                    Image URL
+                    <input
+                        id="image_url"
+                        placeholder="/static/images/product.jpg"
+                    >
+                </label>
+
+                <label class="checkbox-label">
+                    <input id="is_active" type="checkbox" checked>
+                    Visible in storefront
+                </label>
+
+            </div>
+
+            <p id="form-error" class="form-error" role="alert"></p>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    id="cancel-editor"
+                    class="outline-button"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="gold-button">
+                    Save product
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+
+    <footer>
+
+        <p>HEGEDŰS | Collectibles Management System</p>
+
+        <div class="footer-links">
+            <a href="/">Storefront</a>
+            <a href="/docs">API Documentation</a>
+        </div>
+
+    </footer>
+
+    <script src="/static/admin.js"></script>
+
+</body>
+
+</html>
