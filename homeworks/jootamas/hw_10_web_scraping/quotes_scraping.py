@@ -19,8 +19,8 @@ from selenium.webdriver.common.by import By
 # bongeszo
 driver = webdriver.Chrome(options=Options())
 
-# DataFrame, amibe gyujtjuk az idezeteket
-df = pd.DataFrame(columns=["tag", "author", "quote"])
+# az idezetek tarolasahoz
+quotes_list = []
 
 try:
   # megnyitjuk az oldalt
@@ -45,11 +45,11 @@ try:
         quote_text = quote.find_element(by=By.CSS_SELECTOR, value="span.text").text
         quote_author = quote.find_element(by=By.CSS_SELECTOR, value="span:nth-of-type(2) > small").text
 
-        df.loc[len(df)] = {
+        quotes_list.append({
           "tag": tag,
           "author": quote_author,
           "quote": quote_text,
-        }
+        })
 
       # van-e kovetkezo oldal, ha nincs, akkor ez egy ures tombot ad vissza
       next_page = driver.find_elements(By.CSS_SELECTOR, value="nav > ul > li.next > a")
@@ -63,6 +63,9 @@ try:
 finally:
   # bongeszo close
   driver.quit()
+
+# DataFrame, az egyszerubb CSV-be irashoz
+df = pd.DataFrame(quotes_list, columns=["tag", "author", "quote"])
 
 # idezetek CSV-be
 df.to_csv("quotes.csv", index=False, encoding="utf-8")
