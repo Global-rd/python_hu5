@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HEGEDŰS | Collectibles</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+            <span class="brand-name">HEGEDŰS</span>
+            <span class="brand-subtitle">COLLECTIBLES</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="#collection">Collection</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <a href="/admin" class="outline-button">
+            Admin
+        </a>
+
+    </header>
+
+
+    <!-- Hero section -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                PREMIUM RESIN COLLECTIBLES
+            </p>
+
+            <h1>
+                Where imagination<br>
+                <span>takes shape.</span>
+            </h1>
+
+            <p class="hero-description">
+                Exceptional detail. Precision craftsmanship.
+                Discover premium resin collectibles inspired
+                by the worlds we love.
+            </p>
+
+            <a href="#collection" class="gold-button">
+                Explore the collection
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- Brand features -->
+
+    <section class="features">
+
+        <div class="feature">
+            <h3>Precision crafted</h3>
+            <p>High-resolution resin printing</p>
+        </div>
+
+        <div class="feature">
+            <h3>Made for collectors</h3>
+            <p>Exceptional detail and quality</p>
+        </div>
+
+        <div class="feature">
+            <h3>Made to order</h3>
+            <p>Individually produced collectibles</p>
+        </div>
+
+    </section>
+
+
+    <!-- Product collection -->
+
+    <main id="collection" class="collection">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">DISCOVER OUR WORLD</p>
+
+            <h2>The Collection</h2>
+
+            <p>
+                Explore our selection of premium resin collectibles.
+            </p>
+
+        </div>
+
+
+        <!-- Product filters -->
+
+        <div class="filters">
+
+            <input
+                type="search"
+                id="search-input"
+                placeholder="Search collectibles..."
+            >
+
+            <select id="category-filter">
+                <option value="">All categories</option>
+            </select>
+
+            <select id="sort-filter">
+                <option value="default">Recommended</option>
+                <option value="price-asc">Price: Low to high</option>
+                <option value="price-desc">Price: High to low</option>
+                <option value="name">Name: A to Z</option>
+            </select>
+
+        </div>
+
+        <p id="product-count" class="product-count"></p>
+
+
+        <!-- Products are loaded dynamically -->
+
+        <div id="product-grid" class="product-grid">
+
+            <p class="empty-state">
+                Loading collectibles...
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <!-- About section -->
+
+    <section id="about" class="about-section">
+
+        <p class="eyebrow">OUR PHILOSOPHY</p>
+
+        <h2>More than just a collectible.</h2>
+
+        <p>
+            At Hegedűs Collectibles, we combine modern additive
+            manufacturing technology with a passion for craftsmanship.
+            Every piece is created with attention to detail,
+            bringing extraordinary characters and worlds to life.
+        </p>
+
+    </section>
+
+
+    <!-- Product details modal -->
+
+    <dialog id="product-modal" class="product-modal">
+
+        <button
+            id="close-modal"
+            class="close-button"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+
+        <div id="modal-content"></div>
+
+    </dialog>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="brand">
+            <span class="brand-name">HEGEDŰS</span>
+            <span class="brand-subtitle">COLLECTIBLES</span>
+        </div>
+
+        <p>Precision crafted. Made for collectors.</p>
+
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="#collection">Collection</a>
+            <a href="/admin">Admin</a>
+            <a href="/docs">API Documentation</a>
+        </div>
+
+        <p class="copyright">
+            &copy; 2026 Hegedűs Collectibles.
+            All rights reserved.
+        </p>
+
+    </footer>
+
+    <script src="/static/app.js"></script>
+
+</body>
+
+</html>
