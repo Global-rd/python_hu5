@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-
 from webshop_db import Base, engine
-from webshop_routers import webshop_router as webshop_router
+from webshop_routers import stock_router as stock_router
+from webshop_routers import product_router as product_router
 from webshop_routers import customer_router as customer_router
 from webshop_routers import order_router as order_router
 
@@ -17,6 +17,7 @@ async def lifespan(app: FastAPI):
     await engine.dispose()
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(webshop_router)
+app.include_router(stock_router)
+app.include_router(product_router)
 app.include_router(customer_router)
 app.include_router(order_router)
