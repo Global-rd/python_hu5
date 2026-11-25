@@ -1,0 +1,6 @@
+QUOTE_XPATH = '//div[@class="quote"]'
+QUOTE_TAG_XPATH = './/div[@class="tags"]/a[@class="tag"]'
+QUOTE_AUTHOR_XPATH = './/small[@class="author"]'
+QUOTE_TEXT_XPATH = './/span[@class="text"]'
+TOP_TAGS_XPATH = '//div[contains(concat(" ", normalize-space(@class), " "), " tags-box ")]//span[@class="tag-item"]/a[@class="tag"]'
+NEXT_PAGE_XPATH = '//li[@class="next"]/a'
