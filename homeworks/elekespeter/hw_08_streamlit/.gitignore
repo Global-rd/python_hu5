@@ -1,0 +1,3 @@
+# A futás közben keletkező SQLite adatbázist nem töltjük fel
+*.db
+__pycache__/
