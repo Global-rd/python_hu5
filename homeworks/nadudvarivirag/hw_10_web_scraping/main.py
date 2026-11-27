@@ -16,12 +16,10 @@ def main():
     scraper = QuotesSrcraper()
     scraper.initialize_webdriver()
 
-    data = []
-    quotes_data = scraper.scrape_quotes_data(url)
     
-    data.append(quotes_data)
+    data = scraper.scrape_top_teng_tags(url)
     
-
+    
     scraper.load_data_to_csv(data=data, filepath=SCRAPED_DATA_PATH)
 
 

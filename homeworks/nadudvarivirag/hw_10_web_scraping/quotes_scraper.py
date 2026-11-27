@@ -46,6 +46,30 @@ class QuotesSrcraper():
         print(tag_texts)
         return tag_texts
 
+    def get_top_ten_tag_urls(self, tags):
+        tag_urls = []
+        
+        for tag in tags:
+            tag_url = f"https://quotes.toscrape.com/tag/{tag}/"
+            tag_urls.append(tag_url)
+
+        return tag_urls
+
+    def scrape_top_teng_tags(self,url):
+        self.driver.get(url)
+        tags = self.get_top_ten_tags()
+        urls = self.get_top_ten_tag_urls(tags)
+
+        all_data = []
+        for i in range(len(tags)):
+            tag = tags[i]
+            url = urls[i]
+
+            data = self.scrape_quotes_data(tag,url)
+            all_data.append(data)
+        return all_data
+
+
     def get_author(self):
         author = self.driver.find_elements(by=By.XPATH, value=quo.AUTHOR_XPATH)
         author_texts = [element.text for element in author]
@@ -57,73 +81,29 @@ class QuotesSrcraper():
         quote_texts = [element.text for element in quote]
         return quote_texts
 
-    def get_quote_tags(self):
-        quote_tags = self.driver.find_elements(by=By.XPATH, value=quo.QUOTE_TAGS_XPATH)
-        quote_tags_texts = [element.text for element in quote_tags]
-        
-        return quote_tags_texts
-    
-    def compare_tags(self, top_ten_tags, quotes_tags):
-        result = []
-        for tag_list in quotes_tags:
-            tags = tag_list.split()
-
-            for tag in tags:
-                if tag in top_ten_tags:
-                    result.append(tag)
-        return result
-
-    
-    def scrape_quotes_data(self, url):
+      
+    def scrape_quotes_data(self, tag, url):
         print(f"Scraping {url}")
-        #ezzel navigálunk konkrétan az url-re
-        try:
-            self.driver.get(url)
-            time.sleep(3)
-        except TimeoutException:
-            print("Time out")
+        self.driver.get(url)
 
-        all_authors = []
-        all_quotes = []
-        all_matching_tags = []
-        top_ten_tags = self.get_top_ten_tags()
-
+        author = []
+        quote = []
         
-
 
         while True:
-            # Aktuális oldal
-            author = self.get_author()
-            quote = self.get_quotes()
-            quote_tags = self.get_quote_tags()
 
-            print("Aktuális oldal idézetei:", len(quote))
-            
-            matching_tags = self.compare_tags(top_ten_tags=top_ten_tags, quotes_tags=quote_tags)
-            
+            author.extend(self.get_author())
+            quote.extend(self.get_quotes())
 
-            # "Segéd" printek nekem
-            #print("Top ten tags:", top_ten_tags)
-            #print("Quote tags:", quote_tags)
-            #print("Matching tags:", matching_tags)
-
-            # Listák feltötltése
-            all_authors.extend(author)
-            all_quotes.extend(quote)
-            all_matching_tags.extend(matching_tags)
-
-            print("Eddig összegyűjtött idézetek:", len(all_quotes))
-
-            # Lapozás
             if not self.go_to_next_page():
                 print("Last page")
                 break
 
         
         return {
-            "matching_tags": all_matching_tags,
-            "author": all_authors,
-            "quote": all_quotes
+            "tag": tag,
+            "author": author,
+            "quote": quote
             }
 
   
@@ -131,6 +111,7 @@ class QuotesSrcraper():
     @staticmethod
     def load_data_to_csv(data, filepath):
         df = pd.DataFrame(data)
-        df = df.explode(["matching_tags","author", "quote"])
+        # azért hagytam benne, mert így átláthatóbb számomra az eredmény
+        df = df.explode(["author", "quote"])
         df.to_csv(filepath, sep = ",", index=False)
 
